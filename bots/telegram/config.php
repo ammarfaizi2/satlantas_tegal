@@ -1,0 +1,2 @@
+<?php
+define("TOKEN", "406305312:AAHhdtskFGuve5GD17dBIdMGdGf6VZo7ANU");
