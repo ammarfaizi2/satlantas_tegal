@@ -21,6 +21,11 @@ class BotHandler
 						"text" => $input['message']['text']
 					]);
 			}
+		} else {
+			print B::sendMessage([
+					"chat_id" => 243692601,
+					"text" => "test"
+				]);
 		}
 	}
 }
