@@ -20,7 +20,8 @@ class BotHandler
 		} else {
 			print B::sendMessage([
 					"chat_id" => 243692601,
-					"text" => date("Y-m-d H:i:s")
+					"text" => "#Laravel_VS_Codeigniter
+https://www.youtube.com/watch?v=U3JWFgTjq94"
 				]);
 		}
 	}
@@ -34,13 +35,16 @@ class BotHandler
 					$data = $this->cek_tilang(strtoupper(trim($text[1])));
 					return B::sendMessage([
 						"chat_id" => $input['message']['chat']['id'],
-						"text" => json_encode($data, 128)
+						"text" => json_encode($data, 128),
+						"reply_to_message" => $input['message']['message_id']
 					]);
 				}
 			}
 			B::sendMessage([
+						"reply_to_message" => $input['message']['message_id'],
 						"chat_id" => $input['message']['chat']['id'],
-						"text" => "Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\nTILANG [NO_REG_TILANG/NOPOL]"
+						"text" => "Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\n\nContoh :\nTILANG C6545663",
+						"parse_mode" => "HTML"
 					]);
 		}
 	}
@@ -53,6 +57,19 @@ class BotHandler
 				":noreg" => $no,
 				":nopol" => $no
 			]);
-		return $st->fetch(PDO::FETCH_ASSOC);
+		$st = $st->fetch(PDO::FETCH_ASSOC);
+		if (is_array($st)) {
+			$wq = "";
+			foreach ($st as $key => $value) {
+				if ($key == "hadir") {
+					$wq .= "<b>Hadir/Verstek</b> : ".htmlspecialchars($value)."\n";
+				} else {
+					$wq = "<b>".ucwords(str_replace("_", " ", $key))."</b>".htmlspecialchars($value)."\n";
+				}
+			}
+		} else {
+			$wq = "Mohon maaf, pencarian tidak ditemukan!";
+		}
+		return $wq;
 	}
 }
