@@ -2,6 +2,10 @@
 
 namespace SysHandler;
 
+require __DIR__."/../Models/config.php";
+
+use PDO;
+
 class DB
 {
 	public static function pdo()
