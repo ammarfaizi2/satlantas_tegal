@@ -1,6 +1,6 @@
 <?php
 
-namespace Stack;
+namespace Telegram\Stack;
 
 defined("TOKEN") OR die("TOKEN not defined!");
 

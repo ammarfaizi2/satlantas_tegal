@@ -1,8 +1,8 @@
 <?php
 
-namespace Bot;
+namespace Telegram\Bot;
 
-use Bot\BotHandler;
+use Telegram\Bot\BotHandler;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>

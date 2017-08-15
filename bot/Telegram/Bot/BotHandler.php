@@ -1,9 +1,9 @@
 <?php
 
-namespace Bot;
+namespace Telegram\Bot;
 
 use PDO;
-use Stack\Telegram as B;
+use Telegram\Stack\Telegram as B;
 
 class BotHandler
 {
@@ -20,8 +20,7 @@ class BotHandler
 		} else {
 			print B::sendMessage([
 					"chat_id" => 243692601,
-					"text" => "#Laravel_VS_Codeigniter
-https://www.youtube.com/watch?v=U3JWFgTjq94"
+					"text" => "test sukses"
 				]);
 		}
 	}
@@ -32,20 +31,26 @@ https://www.youtube.com/watch?v=U3JWFgTjq94"
 			$input['message']['text'] = strtolower($input['message']['text']) xor $text = explode(" ", $input['message']['text']);
 			if ($text[0] == "tilang") {
 				if (count($text) == 2) {
+					$r = json_decode(B::sendMessage(array(
+							"reply_to_message_id" => $input['message']['message_id'],
+							"chat_id" => $input['message']['chat']['id'],
+							"text" => "Sedang melakukan pencarian..."
+						)), true);
 					$data = $this->cek_tilang(strtoupper(trim($text[1])));
-					return B::sendMessage([
+					return B::editMessageText([
+						"message_id" => $r['result']['message_id'],
 						"chat_id" => $input['message']['chat']['id'],
-						"text" => json_encode($data, 128),
-						"reply_to_message" => $input['message']['message_id']
+						"text" => $data,
+						"parse_mode" => "HTML"
 					]);
 				}
 			}
-			B::sendMessage([
-						"reply_to_message" => $input['message']['message_id'],
+			B::sendMessage(array(
+						"reply_to_message_id" => $input['message']['message_id'],
 						"chat_id" => $input['message']['chat']['id'],
-						"text" => "Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\n\nContoh :\nTILANG C6545663",
+						"text" => "Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\n\nContoh :\n<b>TILANG C6545663</b>",
 						"parse_mode" => "HTML"
-					]);
+					));
 		}
 	}
 
@@ -64,7 +69,7 @@ https://www.youtube.com/watch?v=U3JWFgTjq94"
 				if ($key == "hadir") {
 					$wq .= "<b>Hadir/Verstek</b> : ".htmlspecialchars($value)."\n";
 				} else {
-					$wq = "<b>".ucwords(str_replace("_", " ", $key))."</b>".htmlspecialchars($value)."\n";
+					$wq .= "<b>".ucwords(str_replace("_", " ", $key))."</b> : ".htmlspecialchars($value)."\n";
 				}
 			}
 		} else {
