@@ -16,8 +16,8 @@ class BotHandler
 	public function run()
 	{
 		$input = json_decode(file_get_contents("php://input"), true);
-		$input['message']['text'] = "tilang G2863AU";
-		$input['message']['chat']['id'] = 243692601;
+		#$input['message']['text'] = "tilang G2863AU";
+		#$input['message']['chat']['id'] = 243692601;
 		if (is_array($input)) {
 			$this->eventHandler($input);
 		} else {
@@ -49,6 +49,7 @@ class BotHandler
 							$wq = "Mohon maaf, pencarian tidak ditemukan!";
 						}
 						B::sendMessage([
+							"reply_to_message_id" => $input['message']['message_id'],
 							"chat_id" => $input['message']['chat']['id'],
 							"text" => $wq,
 							"parse_mode" => "HTML"

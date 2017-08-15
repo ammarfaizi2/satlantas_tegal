@@ -1,0 +1,3 @@
+<?php
+define("CHANNEL_SECRET", "c12fbfdc5113143e69cb6af7fa5ea2bf");
+define("CHANNEL_ACCESS_TOKEN", "l5aKB5s5BlxmzNTa8oUlPOToAgaMPXNA/XSGrugFhlXs4Lu6tncIdeVtUvqNf04xxF0Fkeyz4lEc99eXhIBuoLQyV5dVmCfHbYGcYOxwBsLBFyRZBz41T88bIBCYUb+KZEL6VJaZkaiM2i2ikmynkAdB04t89/1O/w1cDnyilFU=");
