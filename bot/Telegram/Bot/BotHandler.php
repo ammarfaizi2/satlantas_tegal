@@ -35,11 +35,6 @@ class BotHandler
 			switch ($text[0]) {
 				case 'tilang':
 					if (count($text) == 2) {
-						$r = json_decode(B::sendMessage(array(
-								"reply_to_message_id" => $input['message']['message_id'],
-								"chat_id" => $input['message']['chat']['id'],
-								"text" => "Sedang melakukan pencarian..."
-							)), true);
 						$st = Tilang::cek_tilang(strtoupper(trim($text[1])));
 						if (is_array($st)) {
 							$wq = "";
@@ -53,8 +48,7 @@ class BotHandler
 						} else {
 							$wq = "Mohon maaf, pencarian tidak ditemukan!";
 						}
-						B::editMessageText([
-							"message_id" => $r['result']['message_id'],
+						B::sendMessage([
 							"chat_id" => $input['message']['chat']['id'],
 							"text" => $wq,
 							"parse_mode" => "HTML"
