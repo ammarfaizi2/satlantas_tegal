@@ -16,7 +16,6 @@ class BotHandler
 	public function run()
 	{
 		$input = json_decode(file_get_contents("php://input"), true);
-		#$input['message']['message_id'] = 123123123;
 		$input['message']['text'] = "tilang G2863AU";
 		$input['message']['chat']['id'] = 243692601;
 		if (is_array($input)) {
