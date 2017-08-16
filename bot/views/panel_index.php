@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>BOT SATLANTASTEGAL</title>
+	<title>BOT PANEL SATLANTASTEGAL</title>
 	<style type="text/css">
 		body {
 			/*font-family: Arial;*/

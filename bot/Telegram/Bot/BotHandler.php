@@ -32,6 +32,32 @@ class BotHandler
 
     private function eventHandler($input)
     {
+        $indoday = array(
+                    "Minggu",
+                    "Senin",
+                    "Selasa",
+                    "Rabu",
+                    "Kamis",
+                    "Jum'at",
+                    "Sabtu"
+                    );
+        $toindo = function ($time) use ($indoday) {
+            $time = strtotime($time);
+            $indomonth = array(
+            "Jan" => "Januari",
+            "Feb" => "Februari",
+            "Mar" => "Maret",
+            "Apr" => "April",
+            "May" => "Mei",
+            "Jun" => "Juni",
+            "Jul" => "Juli",
+            "Aug" => "Agustus",
+            "Sep" => "September",
+            "Oct" => "Oktober",
+            "Nov" => "November",
+            "Dec" => "Desember");
+            return $indoday[date("w", $time)].", ".date("d", $time)." ".$indomonth[date("M", $time)]." ".date("Y", $time);
+        };
         if (isset($input['message']['text'])) {
             $input['message']['text'] = strtolower($input['message']['text']) xor $text = explode(" ", $input['message']['text']);
             switch ($text[0]) {
@@ -70,33 +96,26 @@ class BotHandler
                 }
                 break;
             case 'jadwalsim':
-                $toindo = function ($time) {
-                    $time = strtotime($time);
-                    $indoday = array(
-                    "Minggu",
-                    "Senin",
-                    "Selasa",
-                    "Rabu",
-                    "Kamis",
-                    "Jum'at",
-                    "Sabtu"
-                    );
-                    $indomonth = array(
-                    "Jan" => "Januari",
-                    "Feb" => "Februari",
-                    "Mar" => "Maret",
-                    "Apr" => "April",
-                    "May" => "Mei",
-                    "Jun" => "Juni",
-                    "Jul" => "Juli",
-                    "Aug" => "Agustus",
-                    "Sep" => "September",
-                    "Oct" => "Oktober",
-                    "Nov" => "November",
-                    "Dec" => "Desember");
-                    return $indoday[date("w", $time)].", ".date("d", $time)." ".$indomonth[date("M", $time)]." ".date("Y", $time);
-                };
                 if (count($text) == 2) {
+                    $a = explode("/", $text[1]);
+                    if (count($a) == 1) {
+                        $mhari = ucfirst(strtolower($a[0]));
+                        if (in_array($mhari, $indoday) || $mhari == "Jumat") {
+                            $jadwalsim = Jadwal::getJadwal();
+                            if ($jadwalsim) {
+                                foreach ($jadwalsim as $val) {
+                                    if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
+                                        $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> :".$val['pukul_akhir']."\n\n";
+                                    }
+                                }
+                                empty($rj) and $rj = "Tidak ada jadwal hari ".$mhari;
+                            } else {
+                                $rj = "Tidak ada jadwal hari ".$mhari;
+                            }
+                        } else {
+                            $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar <b>JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]</b>\n\nContoh :\n<b>JADWALSIM 28/05/2017</b>\n<b>JADWALSIM SENIN</b>";
+                        }
+                    }
                 } else {
                     $jadwalsim = Jadwal::getJadwal();
                     if ($jadwalsim) {
@@ -107,7 +126,8 @@ class BotHandler
                     } else {
                         $rj = "Belum ada jadwal!";
                     }
-                    B::sendMessage(
+                }
+                isset($rj) and B::sendMessage(
                         array(
                                 "reply_to_message_id" => $input['message']['message_id'],
                                 "chat_id" => $input['message']['chat']['id'],
@@ -115,7 +135,47 @@ class BotHandler
                                 "parse_mode" => "HTML"
                              )
                     );
+                break;
+            case 'jadwalsamsat':
+                if (count($text) == 2) {
+                    $a = explode("/", $text[1]);
+                    if (count($a) == 1) {
+                        $mhari = ucfirst(strtolower($a[0]));
+                        if (in_array($mhari, $indoday) || $mhari == "Jumat") {
+                            $jadwalsim = Jadwal::getJadwal(1);
+                            if ($jadwalsim) {
+                                foreach ($jadwalsim as $val) {
+                                    if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
+                                        $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> :".$val['pukul_akhir']."\n\n";
+                                    }
+                                }
+                                empty($rj) and $rj = "Tidak ada jadwal hari ".$mhari.".";
+                            } else {
+                                $rj = "Tidak ada jadwal hari ".$mhari.".";
+                            }
+                        } else {
+                            $rj = "Mohon maaf, format penulisan jadwalsamsat salah.\n\nPenulisan yang benar <b>JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]</b>\n\nContoh :\n<b>JADWALSAMSAT 28/05/2017</b>\n<b>JADWALSAMSAT SENIN</b>";
+                        }
+                    }
+                } else {
+                    $jadwalsim = Jadwal::getJadwal(1);
+                    if ($jadwalsim) {
+                        $rj = "";
+                        foreach ($jadwalsim as $val) {
+                            $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> :".$val['pukul_akhir']."\n\n";
+                        }
+                    } else {
+                        $rj = "Belum ada jadwal!";
+                    }
                 }
+                isset($rj) and B::sendMessage(
+                        array(
+                                "reply_to_message_id" => $input['message']['message_id'],
+                                "chat_id" => $input['message']['chat']['id'],
+                                "text" => $rj,
+                                "parse_mode" => "HTML"
+                             )
+                    );
                 break;
             case '/start':
                 B::sendMessage(
@@ -126,12 +186,14 @@ class BotHandler
                         )
                 );
                 break;
-            case '/help': case 'help': case '?':
+            case '?':
+            case 'help': 
+            case '/help': 
                         B::sendMessage(
                             array(
                             "reply_to_message_id" => $input['message']['message_id'],
                             "chat_id" => $input['message']['chat']['id'],
-                            "text" => "Untuk mengecek informasi tilang :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\nContoh :\n<b>TILANG C6545663</b>\n\nUntuk menampilkan jadwal sim keliling :\n<b>JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]</b>\nContoh :\n<b>JADWALSIM 28/05/2017</b>\n<b>JADWALSIM SENIN</b>",
+                            "text" => "Untuk mengecek informasi tilang :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\nContoh :\n<b>TILANG C6545663</b>\n\nUntuk menampilkan jadwal sim keliling :\n<b>JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]</b>\nContoh :\n<b>JADWALSIM 28/05/2017</b>\n<b>JADWALSIM SENIN</b>\n\nUntuk menampilkan jadwal samsat keliling :\n<b>JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]</b>\nContoh :\n<b>JADWALSAMSAT 28/05/2017</b>\n<b>JADWALSAMSATSENIN</b>",
                             "parse_mode" => "HTML"
                             )
                         );
