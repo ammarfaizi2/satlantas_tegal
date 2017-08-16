@@ -11,43 +11,43 @@ use Panel\DeepControllers\JadwalSIMKeliling;
 
 class BotPanel
 {
-	/**
-	 * Panel\Login
-	 */
-	private $login;
-	
-	/**
-	 * Constructor.
-	 */
-	public function __construct(Login $login)
-	{
-		$this->login = $login;
-	}
-	
-	public function run()
-	{
-		require __DIR__.'/../helpers/pg.php';
-		if (!isset($_GET['pg'])) {
-			require __DIR__.'/../views/panel_index.php';
-		} else {
-			switch (strtolower($_GET['pg'])) {
-				case 'jadwal_sim_keliling':
-						$app = new JadwalSIMKeliling();
-						$app->run();
-					break;
-				case 'data_bnn2':
-						$app = new DataBNN2();
-						$app->run();
-					break;
-				case 'etilang':
-						$app = new ETilang();
-						$app->run();
-					break;
-				default:
-						$app = new ErrorPage();
-						$app->run(404);
-					break;
-			}
-		}
-	}
+    /**
+     * Panel\Login
+     */
+    private $login;
+    
+    /**
+     * Constructor.
+     */
+    public function __construct(Login $login)
+    {
+        $this->login = $login;
+    }
+    
+    public function run()
+    {
+        include __DIR__.'/../helpers/pg.php';
+        if (!isset($_GET['pg'])) {
+            include __DIR__.'/../views/panel_index.php';
+        } else {
+            switch (strtolower($_GET['pg'])) {
+            case 'jadwal_sim_keliling':
+                    $app = new JadwalSIMKeliling();
+                    $app->run();
+                break;
+            case 'data_bnn2':
+                    $app = new DataBNN2();
+                    $app->run();
+                break;
+            case 'etilang':
+                    $app = new ETilang();
+                    $app->run();
+                break;
+            default:
+                    $app = new ErrorPage();
+                    $app->run(404);
+                break;
+            }
+        }
+    }
 }

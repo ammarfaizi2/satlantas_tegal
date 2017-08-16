@@ -1181,33 +1181,33 @@ aaa;
 
 $c = 0;
 foreach (explode("\n", $a) as $val) {
-	$query = "INSERT INTO `table_b` ";
-	$val = explode("~", $val);
-	$i = 0;
-	$query .= "VALUES (";
-	foreach ($val as $qew) {
-		$data[":build{$i}"] = trim($qew);
-		$query .= ":build{$i},";
-		if ($i == 14 || $i == 9) {
-			$yy = explode("/", $data[":build{$i}"]);
-			if (isset($yy[2])) {
-				$data[":build{$i}"] = $yy[2]."-".$yy[1]."-".$yy[0];
-			} else {
-				$data[":build{$i}"] = null;
-			}
-		}
-		if ($i == 11 || $i == 12) {
-			$data[":build{$i}"] = (int) $data[":build{$i}"];
-		}
-		$i++;
-	}
-	$query = rtrim($query, ",").")";
-	$st = (new PDO("mysql:host=localhost;dbname=tegal;", "debian-sys-maint", ""))->prepare($query);
-	$w = $st->execute($data);
-	if (!$w) {
-		var_dump($query, $data, $st->errorInfo());
-		die();
-	} 
-	$c++;
-	echo "true | ".$c."\n";
+    $query = "INSERT INTO `table_b` ";
+    $val = explode("~", $val);
+    $i = 0;
+    $query .= "VALUES (";
+    foreach ($val as $qew) {
+        $data[":build{$i}"] = trim($qew);
+        $query .= ":build{$i},";
+        if ($i == 14 || $i == 9) {
+            $yy = explode("/", $data[":build{$i}"]);
+            if (isset($yy[2])) {
+                $data[":build{$i}"] = $yy[2]."-".$yy[1]."-".$yy[0];
+            } else {
+                $data[":build{$i}"] = null;
+            }
+        }
+        if ($i == 11 || $i == 12) {
+            $data[":build{$i}"] = (int) $data[":build{$i}"];
+        }
+        $i++;
+    }
+    $query = rtrim($query, ",").")";
+    $st = (new PDO("mysql:host=localhost;dbname=tegal;", "debian-sys-maint", ""))->prepare($query);
+    $w = $st->execute($data);
+    if (!$w) {
+        var_dump($query, $data, $st->errorInfo());
+        die();
+    } 
+    $c++;
+    echo "true | ".$c."\n";
 }

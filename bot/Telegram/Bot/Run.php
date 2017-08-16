@@ -11,9 +11,9 @@ use Telegram\Bot\BotHandler;
 
 class Run
 {
-	public static function run()
-	{
-		$app = new BotHandler();
-		$app->run();
-	}
+    public static function run()
+    {
+        $app = new BotHandler();
+        $app->run();
+    }
 }

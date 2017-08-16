@@ -1183,20 +1183,20 @@ aaa;
 $query = "INSERT INTO `table_a` VALUES ";
 $i = 0;
 foreach (explode("\n", $a) as $val) {
-	$q = explode("~", $val);
-	$query .= "(";
-	$j = 0;
-	foreach ($q as $w) {
-		$query .= ($bg = ":build_{$i}{$j}").", ";
-		$data[$bg] = trim($w);
-		if ($j == 1) {
-			$data[$bg] = explode("/", $data[$bg]);
-			$data[$bg] = $data[$bg][2]."-".$data[$bg][1]."-".$data[$bg][0];
-		}
-		$j++;
-	}
-	$query = rtrim(trim($query), ",")."), ";
-	$i++;
+    $q = explode("~", $val);
+    $query .= "(";
+    $j = 0;
+    foreach ($q as $w) {
+        $query .= ($bg = ":build_{$i}{$j}").", ";
+        $data[$bg] = trim($w);
+        if ($j == 1) {
+            $data[$bg] = explode("/", $data[$bg]);
+            $data[$bg] = $data[$bg][2]."-".$data[$bg][1]."-".$data[$bg][0];
+        }
+        $j++;
+    }
+    $query = rtrim(trim($query), ",")."), ";
+    $i++;
 }
 $query = rtrim(trim($query), ",").";";
 $st = (new PDO("mysql:host=localhost;dbname=tegal;", "debian-sys-maint", ""))->prepare($query);
