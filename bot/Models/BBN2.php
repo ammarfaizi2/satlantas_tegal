@@ -13,4 +13,11 @@ class BBN2
 		$st->execute();
 		return $st->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+	public static function delete_bbn2($nopol)
+	{
+		return DB::pdo()->prepare("DELETE FROM `data_bbn2` WHERE `nopol`=:nopol LIMIT 1;")->execute(array(
+				":nopol" => $nopol
+			));
+	}
 }
