@@ -2,11 +2,23 @@
 
 namespace Panel\DeepControllers;
 
+use Models\BBN2 as MB;
+
 class BBN2
 {
 	
+	public function __construct()
+	{
+
+	}
+
 	public function run()
 	{
-		echo "belum dibuat";
+		$this->__run();
+	}
+
+	private function __run()
+	{
+		require __DIR__."/../../views/bbn2_index.php";
 	}
 }
