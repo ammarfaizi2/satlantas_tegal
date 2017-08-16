@@ -48,16 +48,16 @@
 	<h2>Bot Panel</h2>
 	<div>
 		<div class="btg">
-			<a href=""><button class="bt">Jadwal SIM Keliling</button></a>
+			<a href="?pg=jadwal_sim_keliling"><button class="bt">Jadwal SIM Keliling</button></a>
 		</div>
 		<div class="btg">
-			<button class="bt">Data BNN2</button>
+			<a href="?pg=data_bnn2"><button class="bt">Data BNN2</button></a>
 		</div>
 		<div class="btg">
-			<button class="bt">ETilang</button>
+			<a href="?pg=etilang"><button class="bt">ETilang</button></a>
 		</div>
 		<div class="btlg">
-			<button class="lg">Logout</button>
+			<a href="?pg=logout"><button class="lg">Logout</button></a>
 		</div>
 	</div>
 </center>
