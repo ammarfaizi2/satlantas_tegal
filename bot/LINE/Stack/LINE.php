@@ -18,14 +18,15 @@ class LINE
 				CURLOPT_SSL_VERIFYPEER => false,
 				CURLOPT_SSL_VERIFYHOST => false,
 				CURLOPT_POST => true,
-				CURLOPT_POSTFIELDS => json_encode([
-					"replyToken" => $replyToken,
-					"messages" => $messages
-				]),
+				CURLOPT_POSTFIELDS => json_encode(array(
+						"replyToken" => $replyToken,
+						"messages" => $messages
+					), 128),
 				CURLOPT_HTTPHEADER => array(
-						"Content-Type" => "application/json",
-						"Authorization" => "Bearer ".CHANNEL_ACCESS_TOKEN
-					)
+						"Content-Type:application/json",
+						"Authorization: Bearer ".CHANNEL_ACCESS_TOKEN
+					),
+				CURLOPT_BINARYTRANSFER => true
 			));
 	}
 
@@ -34,8 +35,9 @@ class LINE
 		$ch = curl_init($url);
 		curl_setopt_array($ch, $op);
 		$out = curl_exec($ch);
-		$err = curl_error($ch) or $out = $err;
-		file_put_contents("debug_line.txt", $out);
+		$err = curl_error($ch) and $out = $err;
+		curl_close($ch);
+		var_dump($out);
 		return $out;
 	}
 }

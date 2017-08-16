@@ -14,39 +14,25 @@ class BotHandler
 
 	private function parseEvent()
 	{
-		$input = json_decode('{
+		$input = json_decode(file_get_contents("php://input"), 128);
+		/*$input = json_decode('{
     "events": [
         {
-            "replyToken": "00000000000000000000000000000000",
             "type": "message",
-            "timestamp": 1451617200000,
+            "replyToken": "dc423fc515934f1fb5c11bb957623d0c",
             "source": {
-                "type": "user",
-                "userId": "Udeadbeefdeadbeefdeadbeefdeadbeef"
+                "userId": "U4cc97d7da9d0b0cb161597db2eab4261",
+                "type": "user"
             },
+            "timestamp": 1502884511947,
             "message": {
-                "id": "100001",
                 "type": "text",
-                "text": "Hello,world"
-            }
-        },
-        {
-            "replyToken": "ffffffffffffffffffffffffffffffff",
-            "type": "message",
-            "timestamp": 1451617210000,
-            "source": {
-                "type": "user",
-                "userId": "Udeadbeefdeadbeefdeadbeefdeadbeef"
-            },
-            "message": {
-                "id": "100002",
-                "type": "sticker",
-                "packageId": "1",
-                "stickerId": "1"
+                "id": "6552829288783",
+                "text": "Tilang 46 141"
             }
         }
     ]
-}', 128);
+}', 128);*/
 		foreach ($input['events'] as $val) {
 			if (isset($val['message']['text'])) {
 				$this->replyToken = $val['replyToken'];
@@ -74,12 +60,6 @@ class BotHandler
 					} else {
 						$wq = "Mohon maaf, pencarian tidak ditemukan!";
 					}
-					B::sendMessage([
-						"reply_to_message_id" => $input['message']['message_id'],
-						"chat_id" => $input['message']['chat']['id'],
-						"text" => $wq,
-						"parse_mode" => "HTML"
-					]);
 					L::reply(array(
 							array(
 								"type" => "text",
@@ -105,6 +85,6 @@ class BotHandler
 
 	public function run()
 	{
-
+		$this->parseEvent();
 	}
 }
