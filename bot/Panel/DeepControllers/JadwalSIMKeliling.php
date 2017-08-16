@@ -13,6 +13,7 @@ class JadwalSIMKeliling
 
     public function run()
     {
+        $type = "sim";
         if (isset($_GET['sp'])) {
             switch (strtolower($_GET['sp'])) {
             case 'input':
@@ -20,13 +21,13 @@ class JadwalSIMKeliling
                 break;
                 
             default:
-                include __DIR__.'/../../views/jadwal_sim_keliling.php';
+                include __DIR__.'/../../views/jadwal_index.php';
                 break;
             }
         } elseif (isset($_GET['post']) and $_GET['post'] == "ok" and $_SERVER['REQUEST_METHOD'] == "POST") {
             $this->input();
         } else {
-            include __DIR__.'/../../views/jadwal_sim_keliling.php';
+            include __DIR__.'/../../views/jadwal_index.php';
         }
     }
 

@@ -8,6 +8,7 @@ use Panel\DeepControllers\ETilang;
 use Panel\DeepControllers\DataBNN2;
 use Panel\DeepControllers\ErrorPage;
 use Panel\DeepControllers\JadwalSIMKeliling;
+use Panel\DeepControllers\JadwalSAMSATKeliling;
 
 class BotPanel
 {
@@ -31,6 +32,10 @@ class BotPanel
             include __DIR__.'/../views/panel_index.php';
         } else {
             switch (strtolower($_GET['pg'])) {
+            case 'jadwal_samsat_keliling':
+                    $app = new JadwalSAMSATKeliling();
+                    $app->run();
+                break;
             case 'jadwal_sim_keliling':
                     $app = new JadwalSIMKeliling();
                     $app->run();

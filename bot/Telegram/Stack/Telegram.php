@@ -2,7 +2,7 @@
 
 namespace Telegram\Stack;
 
-defined("TOKEN") OR die("TOKEN not defined!");
+defined("TOKEN") or die("TOKEN not defined!");
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>

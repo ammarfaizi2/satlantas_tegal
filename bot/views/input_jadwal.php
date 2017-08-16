@@ -45,13 +45,13 @@
 <body>
 <center>
 <div class="ab">
-	<a href="?pg=jadwal_sim_keliling&ref=input"><button class="nv">Kembali ke Jadwal SIM Keliling</button></a><button class="nv" id="add_row">Tambahkan baris</button>
+	<a href="?pg=jadwal_<?php print $type; ?>_keliling&ref=input"><button class="nv">Kembali ke Jadwal <?php print strtoupper($type); ?> Keliling</button></a><button class="nv" id="add_row">Tambahkan baris</button>
 </div>
-<form method="post" action="?pg=jadwal_sim_keliling&post=ok">
+<form method="post" action="?pg=jadwal_<?php print $type; ?>_keliling&post=ok">
 <div class="tbcg">
 <table border="1">
 	<thead>
-		<tr><th colspan="5">Input Jadwal SIM Keliling</th></tr>
+		<tr><th colspan="5">Input Jadwal <?php print strtoupper($type); ?> Keliling</th></tr>
 		<tr><th>Hari/Tanggal</th><th>Lokasi</th><th>Pukul Awal</th><th>Pukul Akhir</th></tr>
 	</thead>
 	<tbody id="wq">

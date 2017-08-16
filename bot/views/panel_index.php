@@ -48,6 +48,9 @@
 	<h2>Bot Panel</h2>
 	<div>
 		<div class="btg">
+			<a href="?pg=jadwal_samsat_keliling"><button class="bt">Jadwal SAMSAT Keliling</button></a>
+		</div>
+		<div class="btg">
 			<a href="?pg=jadwal_sim_keliling"><button class="bt">Jadwal SIM Keliling</button></a>
 		</div>
 		<div class="btg">
