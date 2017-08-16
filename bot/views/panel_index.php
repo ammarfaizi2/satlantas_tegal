@@ -54,7 +54,7 @@
 			<a href="?pg=jadwal_sim_keliling"><button class="bt">Jadwal SIM Keliling</button></a>
 		</div>
 		<div class="btg">
-			<a href="?pg=data_bnn2"><button class="bt">Data BNN2</button></a>
+			<a href="?pg=data_bbn2"><button class="bt">Data BNN2</button></a>
 		</div>
 		<div class="btg">
 			<a href="?pg=etilang"><button class="bt">ETilang</button></a>

@@ -4,8 +4,8 @@ namespace Panel;
 
 use Panel\Login;
 use SysHandler\DB;
+use Panel\DeepControllers\BBN2;
 use Panel\DeepControllers\ETilang;
-use Panel\DeepControllers\DataBNN2;
 use Panel\DeepControllers\ErrorPage;
 use Panel\DeepControllers\JadwalSIMKeliling;
 use Panel\DeepControllers\JadwalSAMSATKeliling;
@@ -40,13 +40,19 @@ class BotPanel
                     $app = new JadwalSIMKeliling();
                     $app->run();
                 break;
-            case 'data_bnn2':
-                    $app = new DataBNN2();
+            case 'data_bbn2':
+                    $app = new BBN2();
                     $app->run();
                 break;
             case 'etilang':
                     $app = new ETilang();
                     $app->run();
+                break;
+            case 'logout':
+                    setcookie("sess", null, null);
+                    setcookie("user", null, null);
+                    header("location:?");
+                    die(1);
                 break;
             default:
                     $app = new ErrorPage();
