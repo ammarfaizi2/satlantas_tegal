@@ -121,7 +121,7 @@ class BotHandler
                     if ($jadwalsim) {
                         $rj = "";
                         foreach ($jadwalsim as $val) {
-                            $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> :".$val['pukul_akhir']."\n\n";
+                            $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> : ".$val['pukul_akhir']."\n\n";
                         }
                     } else {
                         $rj = "Belum ada jadwal!";
@@ -146,7 +146,7 @@ class BotHandler
                             if ($jadwalsim) {
                                 foreach ($jadwalsim as $val) {
                                     if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
-                                        $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> :".$val['pukul_akhir']."\n\n";
+                                        $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> : ".$val['pukul_akhir']."\n\n";
                                     }
                                 }
                                 empty($rj) and $rj = "Tidak ada jadwal hari ".$mhari.".";
@@ -193,7 +193,7 @@ class BotHandler
                             array(
                             "reply_to_message_id" => $input['message']['message_id'],
                             "chat_id" => $input['message']['chat']['id'],
-                            "text" => "Untuk mengecek informasi tilang :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\nContoh :\n<b>TILANG C6545663</b>\n\nUntuk menampilkan jadwal sim keliling :\n<b>JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]</b>\nContoh :\n<b>JADWALSIM 28/05/2017</b>\n<b>JADWALSIM SENIN</b>\n\nUntuk menampilkan jadwal samsat keliling :\n<b>JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]</b>\nContoh :\n<b>JADWALSAMSAT 28/05/2017</b>\n<b>JADWALSAMSATSENIN</b>",
+                            "text" => "Untuk mengecek informasi tilang :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\nContoh :\n<b>TILANG C6545663</b>\n\nUntuk menampilkan jadwal sim keliling :\n<b>JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]</b>\nContoh :\n<b>JADWALSIM 28/05/2017</b>\n<b>JADWALSIM SENIN</b>\n\nUntuk menampilkan jadwal samsat keliling :\n<b>JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]</b>\nContoh :\n<b>JADWALSAMSAT 28/05/2017</b>\n<b>JADWALSAMSAT SENIN</b>",
                             "parse_mode" => "HTML"
                             )
                         );
