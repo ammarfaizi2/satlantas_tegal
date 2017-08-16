@@ -46,7 +46,7 @@ class BotHandler
 		$tgg = explode(" ", strtolower($text));
 		switch ($tgg[0]) {
 			case 'tilang':
-				if (count($text) == 2) {
+				if (count($tgg) == 2) {
 					$st = Tilang::cek_tilang(strtoupper(trim($text[1])));
 					if (is_array($st)) {
 						$wq = "";
