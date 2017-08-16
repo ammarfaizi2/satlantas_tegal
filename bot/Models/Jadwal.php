@@ -14,7 +14,8 @@ class Jadwal
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function delete_jadwal()
+    public static function delete_jadwal($id)
     {
+    	return DB::pdo()->prepare("DELETE FROM `jadwal_sim_keliling` WHERE `id_jadwal`=:id LIMIT 1;")->execute(array(":id"=>$id));
     }
 }

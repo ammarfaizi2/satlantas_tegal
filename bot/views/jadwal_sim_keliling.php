@@ -22,7 +22,7 @@ if (isset($_GET['delete_jadwal'])) {
 			padding: 2px 4px 2px 4px;
 		}
 		td {
-			padding: 2px 10px 2px 10px;
+			padding: 2px 15px 2px 15px;
 		}
 	</style>
 </head>
@@ -50,7 +50,7 @@ if (isset($_GET['delete_jadwal'])) {
             "Selasa",
             "Rabu",
             "Kamis",
-            "Jum\'at",
+            "Jum'at",
             "Sabtu"
             );
             $indomonth = array(
@@ -70,7 +70,7 @@ if (isset($_GET['delete_jadwal'])) {
         };
         foreach ($a as $val) {
             ?>
-          <tr><td align="center"><?php print $i++; ?></td><td align="center"><?php print $toindo($val['tanggal']); ?></td><td align="center"><?php print $val['lokasi']; ?></td><td align="center"><?php print substr($val['pukul_awal'], 0, 5); ?></td><td align="center"><?php print substr($val['pukul_akhir'], 0, 5); ?></td><td><a href="<?php pg("delete_jadwal=".$val['id_jadwal']); ?>"><button>Hapus</button></a> <a href="<?php pg("edit_jadwal=".$val['id_jadwal']); ?>"><button>Edit</button></a></td></tr>
+          <tr><td align="center"><?php print $i++; ?></td><td align="center"><?php print $toindo($val['tanggal']); ?></td><td align="center"><?php print $val['lokasi']; ?></td><td align="center"><?php print substr($val['pukul_awal'], 0, 5); ?></td><td align="center"><?php print substr($val['pukul_akhir'], 0, 5); ?></td><td><a href="<?php pg("delete_jadwal=".$val['id_jadwal']); ?>"><button>Hapus</button></a>&nbsp;<a href="<?php pg("edit_jadwal=".$val['id_jadwal']); ?>"><button>Edit</button></a></td></tr>
         <?php
         }
         ?>
