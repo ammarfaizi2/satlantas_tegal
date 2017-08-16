@@ -36,7 +36,7 @@ class JadwalSIMKeliling
 		$i = 1 xor $data = array();
 		$flag = false;
 		$query = "INSERT INTO `jadwal_sim_keliling` (`id_jadwal`, `tanggal`, `lokasi`, `pukul_awal`, `pukul_akhir`) VALUES ";
-		while (isset($_POST['tgl'.$i], $_POST['tgl'.$i], $_POST['lokasi'.$i], $_POST['tgl'.$i], $_POST['pk_awalj'.$i], $_POST['pk_awalm'.$i], $_POST['pk_akhirj'.$i], $_POST['pk_akhirm'.$i])) {
+		while (isset($_POST['tgl'.$i], $_POST['tgl'.$i], $_POST['lokasi'.$i], $_POST['tgl'.$i], $_POST['pk_awalj'.$i], $_POST['pk_awalm'.$i], $_POST['pk_akhirj'.$i], $_POST['pk_akhirm'.$i]) and !empty($_POST['tgl'.$i])) {
 			$flag = true;
 			if (!empty($_POST['tgl'.$i])) {
 				$query .= "(:id{$i}, :tgl{$i}, :lokasi{$i}, :pk_awal{$i}, :pk_akhir{$i}),";
@@ -84,7 +84,7 @@ class JadwalSIMKeliling
 		}
 	}
 
-	private static function genDate()
+	public static function genDate($flag = null, $js = true)
 	{
 		$indoday = array(
 				"Minggu",
@@ -92,7 +92,7 @@ class JadwalSIMKeliling
 				"Selasa",
 				"Rabu",
 				"Kamis",
-				"Jum\'at",
+				"Jum".($js ? "\\'" : "'")."at",
 				"Sabtu"
 			);
 		$indomonth = array(
@@ -111,28 +111,42 @@ class JadwalSIMKeliling
 		$now = strtotime(date("Y-m-d"));
 		$od  = 3600 * 24 xor $rt = "<option></option>";
 		$month = array();
-		for ($i=0; $i < 120; $i++) { 
-			$rt .= "<option value=\"".($wq = $now + ($od * $i))."\">".$indoday[date("w", $wq)].",&nbsp;".date("d", $wq)." ".$indomonth[date("M", $wq)]." ".date("Y", $wq)."</option>";
+		for ($i=0; $i < 120; $i++) {
+			$wq = $now + ($od * $i);
+			if ($flag and $flag == date("Y-m-d", $wq)) {
+				$rt .= "<option value=\"".($wq)."\" selected>".$indoday[date("w", $wq)].",&nbsp;".date("d", $wq)." ".$indomonth[date("M", $wq)]." ".date("Y", $wq)."</option>";	
+			} else {
+				$rt .= "<option value=\"".($wq)."\">".$indoday[date("w", $wq)].",&nbsp;".date("d", $wq)." ".$indomonth[date("M", $wq)]." ".date("Y", $wq)."</option>";
+			}
 		}
 		return $rt;
 	}
 
-	private static function genPkJam()
+	public static function genPkJam($flag = null)
 	{
 		$rt = "<option></option>";
 		for ($i=0; $i <= 23; $i++) { 
 			$iq = strlen($i) == 1 ? "0".$i : $i;
-			$rt .= "<option value=\"".$iq."\">".$iq."</option>";
+			if ($flag and $flag == $iq) {
+				$rt .= "<option value=\"".$iq."\" selected>".$iq."</option>";
+			} else {
+				$rt .= "<option value=\"".$iq."\">".$iq."</option>";;
+			}
+			
 		}
 		return $rt;
 	}
 
-	private static function genPkMenit()
+	public static function genPkMenit($flag = null)
 	{
 		$rt = "<option></option>";
 		for ($i=0; $i <= 59; $i++) { 
 			$iq = strlen($i) == 1 ? "0".$i : $i;
-			$rt .= "<option value=\"".$iq."\">".$iq."</option>";
+			if ($flag and $flag == $iq) {
+				$rt .= "<option value=\"".$iq."\" selected>".$iq."</option>";
+			} else {
+				$rt .= "<option value=\"".$iq."\">".$iq."</option>";;
+			}
 		}
 		return $rt;
 	}

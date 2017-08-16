@@ -14,4 +14,9 @@ class Jadwal
 		$st->execute();
 		return $st->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+	public static function delete_jadwal()
+	{
+		
+	}
 }
