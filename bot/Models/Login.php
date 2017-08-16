@@ -11,7 +11,7 @@ class Login
 	{
 		$st = DB::pdo()->prepare("SELECT `password`, `userid` FROM `admin` WHERE `username` = :user LIMIT 1;");
 		$st->execute(array(
-			":user" => $user
+			":user" => strtolower($user)
 		));
 		if ($st = $st->fetch(PDO::FETCH_NUM)) {
 			if ($st[0] == $pass) {
