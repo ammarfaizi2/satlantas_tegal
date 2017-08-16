@@ -7,7 +7,7 @@ use SysHandler\DB;
 use Panel\DeepControllers\ETilang;
 use Panel\DeepControllers\DataBNN2;
 use Panel\DeepControllers\ErrorPage;
-use Panel\DeepControllers\JadwalSimKeliling;
+use Panel\DeepControllers\JadwalSIMKeliling;
 
 class BotPanel
 {
@@ -26,12 +26,13 @@ class BotPanel
 	
 	public function run()
 	{
+		require __DIR__.'/../helpers/pg.php';
 		if (!isset($_GET['pg'])) {
 			require __DIR__.'/../views/panel_index.php';
 		} else {
 			switch (strtolower($_GET['pg'])) {
 				case 'jadwal_sim_keliling':
-						$app = new JadwalSimKeliling();
+						$app = new JadwalSIMKeliling();
 						$app->run();
 					break;
 				case 'data_bnn2':
