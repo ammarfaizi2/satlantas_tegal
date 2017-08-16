@@ -7,6 +7,10 @@ defined("CHANNEL_ACCESS_TOKEN") or die;
 
 class LINE
 {
+	/**
+	 * @param array $messages
+	 * @param string $replyToken
+	 */
 	public static function reply($messages, $replyToken)
 	{
 		return self::exec("https://api.line.me/v2/bot/message/reply" , array(
@@ -31,6 +35,7 @@ class LINE
 		curl_setopt_array($ch, $op);
 		$out = curl_exec($ch);
 		$err = curl_error($ch) or $out = $err;
+		file_put_contents("debug_line.txt", $out);
 		return $out;
 	}
 }
