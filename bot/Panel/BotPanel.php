@@ -22,6 +22,6 @@ class BotPanel
 	
 	public function run()
 	{
-		
+		require __DIR__.'/../views/panel_index.php';
 	}
 }
