@@ -21,10 +21,15 @@
 </head>
 <body>
 <center>
+<div>
+	<a href="?"><button>Kembali</button></a>
+</div>
 	<h1>ETilang</h1>
 	<form method="post" enctype="multipart/form-data">
 	<div class="impt">
 		<h3>Import Data</h3>
+		<strong>PENTING *** Posisi kolom harus sesuai dengan contoh ini!</strong><br><br>
+		<a href="elang.xls">Download Contoh</a><br><br>
 		<input type="file" name="db"><br><br>
 		<select name="ftype">
 			<option value="PHPExcel_Reader_Excel5">Excel 5</option>
