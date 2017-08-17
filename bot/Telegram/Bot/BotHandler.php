@@ -116,22 +116,22 @@ class BotHandler
                         "parse_mode" => "HTML"
                         )
                     );
-               }
+                }
                 break;
 case 'bbn2':
-if(count($text)==2){
-$rj="<b>INFORMASI DATA BBN2</b>\n\n";
-$a = BBN2::getBBN2(strtoupper(trim($text[1])));
-if($a){
-	foreach($a as $k => $v){
-		$rj.="<b>".ucwords(str_replace('_', ' ', $k))."</b> : ".$v."\n";
-	}
-	$rj.="\n\nPengambilan diruang BPKB Satlantas Polres Tegal";
+if (count($text)==2) {
+    $rj="<b>INFORMASI DATA BBN2</b>\n\n";
+    $a = BBN2::getBBN2(strtoupper(trim($text[1])));
+    if ($a) {
+        foreach ($a as $k => $v) {
+            $rj.="<b>".ucwords(str_replace('_', ' ', $k))."</b> : ".$v."\n";
+        }
+        $rj.="\n\nPengambilan diruang BPKB Satlantas Polres Tegal";
+    } else {
+        $rj = "Pencarian tidak ditemukan!";
+    }
 } else {
-	$rj = "Pencarian tidak ditemukan!";
-}
-} else {
-	$rj = "Mohon maaf format penulisan BBN2 salah.\n\nBerikut ini adalah penulisan yang benar :\n<b>BBN2 [NOPOL]</b>\n\nContoh :\n<b>BBN2 AD3718BEC</b>";
+    $rj = "Mohon maaf format penulisan BBN2 salah.\n\nBerikut ini adalah penulisan yang benar :\n<b>BBN2 [NOPOL]</b>\n\nContoh :\n<b>BBN2 AD3718BEC</b>";
 }
 B::sendMessage(array(
 "reply_to_message_id" => $input['message']['message_id'],
@@ -145,13 +145,14 @@ break;
                     $a = explode("/", $text[1]);
                     if (count($a) == 1) {
                         $mhari = ucfirst(strtolower($a[0]));
- if (in_array($mhari, $indoday)||$mhari == "Jumat") {
-$jadwalsim = Jadwal::getJadwal();
-if ($jadwalsim) {
-$rj = "<b>JADWAL SIM KELILING</b>\n\n"; $flag = false;
-foreach ($jadwalsim as $val) {
-if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
-$flag = true;
+                        if (in_array($mhari, $indoday)||$mhari == "Jumat") {
+                            $jadwalsim = Jadwal::getJadwal();
+                            if ($jadwalsim) {
+                                $rj = "<b>JADWAL SIM KELILING</b>\n\n";
+                                $flag = false;
+                                foreach ($jadwalsim as $val) {
+                                    if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
+                                        $flag = true;
                                         $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> :".$val['pukul_akhir']."\n\n";
                                     }
                                 }
@@ -163,20 +164,21 @@ $flag = true;
                             $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar <b>JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]</b>\n\nContoh :\n<b>JADWALSIM 28/05/2017</b>\n<b>JADWALSIM SENIN</b>";
                         }
                     }
-} else {
-	if (count($text) == 1){
-		$a = Jadwal::getJadwal();
-		if($a){
-			$rj = "<b>JADWAL SIM KELILING</b>\n\n";
-foreach($a as $val){
-	$rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> : ".$val['pukul_akhir']."\n\n";
-}
-		} else {
-			$rj = "Tidak ada jadwal!";
-		}
-		} else {
-   $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar <b>JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]</b>\n\nContoh :\n<b>JADWALSIM 28/05/2017</b>\n<b>JADWALSIM SENIN</b>";            
-   }                     }
+                } else {
+                    if (count($text) == 1) {
+                        $a = Jadwal::getJadwal();
+                        if ($a) {
+                            $rj = "<b>JADWAL SIM KELILING</b>\n\n";
+                            foreach ($a as $val) {
+                                $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> : ".$val['pukul_akhir']."\n\n";
+                            }
+                        } else {
+                            $rj = "Tidak ada jadwal!";
+                        }
+                    } else {
+                        $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar <b>JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]</b>\n\nContoh :\n<b>JADWALSIM 28/05/2017</b>\n<b>JADWALSIM SENIN</b>";
+                    }
+                }
                 isset($rj) and B::sendMessage(
                         array(
                                 "reply_to_message_id" => $input['message']['message_id'],
@@ -194,10 +196,11 @@ foreach($a as $val){
                         if (in_array($mhari, $indoday) || $mhari == "Jumat") {
                             $jadwalsim = Jadwal::getJadwal(1);
                             if ($jadwalsim) {
-$rj = "<b>JADWAL SAMSAT KELILING</b>\n\n";$flag = false;
+                                $rj = "<b>JADWAL SAMSAT KELILING</b>\n\n";
+                                $flag = false;
                                 foreach ($jadwalsim as $val) {
                                     if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
-                                    	$flag = true;
+                                        $flag = true;
                                         $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> : ".$val['pukul_akhir']."\n\n";
                                     }
                                 }
@@ -210,20 +213,21 @@ $rj = "<b>JADWAL SAMSAT KELILING</b>\n\n";$flag = false;
                             $rj = "Mohon maaf, format penulisan jadwalsamsat salah.\n\nPenulisan yang benar <b>JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]</b>\n\nContoh :\n<b>JADWALSAMSAT 28/05/2017</b>\n<b>JADWALSAMSAT SENIN</b>";
                         }
                     }
-} else{
-if (count($text) == 1){
-		$a = Jadwal::getJadwal(1);
-		if($a){
-			$rj = "<b>JADWAL SAMSAT KELILING</b>\n\n";
-foreach($a as $val){
-	$rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> : ".$val['pukul_akhir']."\n\n";
-}
-		} else {
-			$rj = "Tidak ada jadwal sim keliling!";
-		}
-		} else {
-   $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar <b>JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]</b>\n\nContoh :\n<b>JADWALSAMSAT 28/05/2017</b>\n<b>JADWALSAMSAT SENIN</b>";            
-   }}
+                } else {
+                    if (count($text) == 1) {
+                        $a = Jadwal::getJadwal(1);
+                        if ($a) {
+                            $rj = "<b>JADWAL SAMSAT KELILING</b>\n\n";
+                            foreach ($a as $val) {
+                                $rj .= "<b>".$toindo($val['tanggal'])."</b>\n<b>Lokasi</b> : ".$val['lokasi']."\n<b>Pukul awal</b> : ".$val['pukul_awal']."\n<b>Pukul akhir</b> : ".$val['pukul_akhir']."\n\n";
+                            }
+                        } else {
+                            $rj = "Tidak ada jadwal sim keliling!";
+                        }
+                    } else {
+                        $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar <b>JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]</b>\n\nContoh :\n<b>JADWALSAMSAT 28/05/2017</b>\n<b>JADWALSAMSAT SENIN</b>";
+                    }
+                }
                 isset($rj) and B::sendMessage(
                         array(
                                 "reply_to_message_id" => $input['message']['message_id'],
@@ -234,8 +238,8 @@ foreach($a as $val){
                     );
                 break;
             case '?':
-            case 'help': 
-            case '/help': 
+            case 'help':
+            case '/help':
             case '/start':
                         B::sendMessage(
                             array(

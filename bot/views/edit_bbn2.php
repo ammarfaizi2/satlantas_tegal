@@ -1,18 +1,18 @@
 <?php
 use SysHandler\DB;
+
 if (isset($_POST['simpan'])) {
-	$st = DB::pdo()->prepare("UPDATE `data_bbn2` SET `nopol`=:nopol, `nama`=:nama, `alamat`=:alamat, `jenis_kendaraan`=:jenken, `no_rangka`=:no_rang, `status`=:status WHERE `nopol`=:npid LIMIT 1;");
-	$exe = $st->execute(array(
-			":nopol" => $_POST['nopol'],
-			":nama" => $_POST['nama'],
-			":alamat" => $_POST['alamat'],
-			":jenken" => $_POST['jenis_kendaraan'],
-			":no_rang" => $_POST['no_rangka'],
-			":status" => $_POST['status'],
-			":npid" => $_GET['edit_bbn2']
-		));
-	$alert = $exe ? "Berhasil mengubah data!" : "Gagal mengubah data!";
-	?>
+    $st = DB::pdo()->prepare("UPDATE `data_bbn2` SET `nopol`=:nopol, `nama`=:nama, `alamat`=:alamat, `jenis_kendaraan`=:jenken, `no_rangka`=:no_rang, `status`=:status WHERE `nopol`=:npid LIMIT 1;");
+    $exe = $st->execute(array(
+            ":nopol" => $_POST['nopol'],
+            ":nama" => $_POST['nama'],
+            ":alamat" => $_POST['alamat'],
+            ":jenken" => $_POST['jenis_kendaraan'],
+            ":no_rang" => $_POST['no_rangka'],
+            ":status" => $_POST['status'],
+            ":npid" => $_GET['edit_bbn2']
+        ));
+    $alert = $exe ? "Berhasil mengubah data!" : "Gagal mengubah data!"; ?>
 	<!DOCTYPE html>
 	<html>
 	<head>
@@ -27,7 +27,7 @@ if (isset($_POST['simpan'])) {
 	</body>
 	</html>
 	<?php
-	die();
+    die();
 }
 ?>
 <!DOCTYPE html>
@@ -38,9 +38,9 @@ if (isset($_POST['simpan'])) {
 <body>
 <?php 
 if ($st['status'] == "sedang proses") {
-	$rad = '<input type="radio" name="status" value="sedang proses" checked>Sedang Proses<br><input type="radio" name="status" value="sudah selesai">Sudah Selesai';
+    $rad = '<input type="radio" name="status" value="sedang proses" checked>Sedang Proses<br><input type="radio" name="status" value="sudah selesai">Sudah Selesai';
 } else {
-	$rad = '<input type="radio" name="status" value="sedang proses">Sedang Proses<br><input type="radio" name="status" value="sudah selesai" checked>Sudah Selesai';
+    $rad = '<input type="radio" name="status" value="sedang proses">Sedang Proses<br><input type="radio" name="status" value="sudah selesai" checked>Sudah Selesai';
 }
 ?>
 <center>

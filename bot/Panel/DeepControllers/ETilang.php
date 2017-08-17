@@ -4,8 +4,8 @@ namespace Panel\DeepControllers;
 
 class ETilang
 {
-	public function run()
-	{
-		echo "belum dibuat";
-	}
+    public function run()
+    {
+        echo "belum dibuat";
+    }
 }

@@ -35,13 +35,13 @@ if (isset($_GET['delete_bbn2'])) {
 	<a href="<?php pg("sp=input") ?>"><button>Input Data</button></a>
 </div>
     <?php
-    if ($a = BBN2::getAll())	 {
+    if ($a = BBN2::getAll()) {
         $i = 1; ?>
      <table border="1">
       <thead>
        <tr><th>No.</th><th>Nopol</th><th>Nama</th><th>Alamat</th><th>Jenis Kendaraan</th><th>No Rangka</th><th>Status</th><th>Aksi</th></tr>
       </thead>
-        <?php        
+        <?php 
         foreach ($a as $val) {
             ?>
           <tr><td align="center"><?php print $i++; ?></td><td align="center"><?php print $val['nopol']; ?></td><td align="center"><?php print $val['nama']; ?></td><td align="center"><?php print $val['alamat']; ?></td><td align="center"><?php print $val['jenis_kendaraan']; ?></td><td><?php print $val['no_rangka']; ?></td><td><?php print $val['status']; ?></td><td><a href="<?php pg("delete_bbn2=".$val['nopol']); ?>"><button>Hapus</button></a>&nbsp;<a href="<?php pg("edit_bbn2=".$val['nopol']); ?>"><button>Edit</button></a></td></tr>

@@ -81,19 +81,19 @@ class BotHandler
             }
             break;
 case 'bbn2':
-if(count($tgg)==2){
-$rj="INFORMASI DATA BBN2\n\n";
-$a = BBN2::getBBN2(strtoupper(trim($tgg[1])));
-if($a){
-	foreach($a as $k => $v){
-		$rj.= ucwords(str_replace('_', ' ', $k)).": ".$v."\n";
-	}
-	$rj.="\n\nPengambilan diruang BPKB Satlantas Polres Tegal";
+if (count($tgg)==2) {
+    $rj="INFORMASI DATA BBN2\n\n";
+    $a = BBN2::getBBN2(strtoupper(trim($tgg[1])));
+    if ($a) {
+        foreach ($a as $k => $v) {
+            $rj.= ucwords(str_replace('_', ' ', $k)).": ".$v."\n";
+        }
+        $rj.="\n\nPengambilan diruang BPKB Satlantas Polres Tegal";
+    } else {
+        $rj = "Pencarian tidak ditemukan!";
+    }
 } else {
-	$rj = "Pencarian tidak ditemukan!";
-}
-} else {
-	$rj = "Mohon maaf format penulisan BBN2 salah.\n\nBerikut ini adalah penulisan yang benar :\nBBN2 [NOPOL]\n\nContoh :\nBBN2 AD3718BEC";
+    $rj = "Mohon maaf format penulisan BBN2 salah.\n\nBerikut ini adalah penulisan yang benar :\nBBN2 [NOPOL]\n\nContoh :\nBBN2 AD3718BEC";
 }
 L::reply(array(array(
 "type"=>"text",
@@ -103,38 +103,41 @@ break;
 
 case 'jadwalsim':
 if (count($tgg) == 2) {
-$a = explode("/", $tgg[1]);
-if(count($a) == 1) {
-$mhari = ucfirst(strtolower($a[0]));if (in_array($mhari, $indoday)||$mhari == "Jumat") {
-$jadwalsim = Jadwal::getJadwal();
-if ($jadwalsim) {
-$rj = "JADWAL SIM KELILING\n\n";
-foreach ($jadwalsim as $val) {
-if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {                                       $rj .=$toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal : ".$val['pukul_awal']."\nPukul akhir :".$val['pukul_akhir']."\n\n";
-                                    }
-                                }
-                                empty($rj) and $rj = "Tidak ada jadwal hari ".$mhari;
-                            } else {
-                                $rj = "Tidak ada jadwal hari ".$mhari;
-                            }
-                        } else {
-                            $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSIM 28/05/2017\nJADWALSIM SENIN";
-                        }
+    $a = explode("/", $tgg[1]);
+    if (count($a) == 1) {
+        $mhari = ucfirst(strtolower($a[0]));
+        if (in_array($mhari, $indoday)||$mhari == "Jumat") {
+            $jadwalsim = Jadwal::getJadwal();
+            if ($jadwalsim) {
+                $rj = "JADWAL SIM KELILING\n\n";
+                foreach ($jadwalsim as $val) {
+                    if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
+                        $rj .=$toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal : ".$val['pukul_awal']."\nPukul akhir :".$val['pukul_akhir']."\n\n";
                     }
+                }
+                empty($rj) and $rj = "Tidak ada jadwal hari ".$mhari;
+            } else {
+                $rj = "Tidak ada jadwal hari ".$mhari;
+            }
+        } else {
+            $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSIM 28/05/2017\nJADWALSIM SENIN";
+        }
+    }
 } else {
-	if (count($tgg) == 1){
-		$a = Jadwal::getJadwal();
-		if($a){
-			$rj = "JADWAL SIM KELILING\n\n";
-foreach($a as $val){
-	$rj .= $toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal</b> : ".$val['pukul_awal']."\nPukul akhir : ".$val['pukul_akhir']."\n\n";
+    if (count($tgg) == 1) {
+        $a = Jadwal::getJadwal();
+        if ($a) {
+            $rj = "JADWAL SIM KELILING\n\n";
+            foreach ($a as $val) {
+                $rj .= $toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal</b> : ".$val['pukul_awal']."\nPukul akhir : ".$val['pukul_akhir']."\n\n";
+            }
+        } else {
+            $rj = "Tidak ada jadwal!";
+        }
+    } else {
+        $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSIM 28/05/2017\nJADWALSIM SENIN";
+    }
 }
-		} else {
-			$rj = "Tidak ada jadwal!";
-		}
-		} else {
-   $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSIM 28/05/2017\nJADWALSIM SENIN";            
-   }                     }
                 isset($rj) and L::reply(array(array(
 "type"=>"text",
 "text"=>$rj
