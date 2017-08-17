@@ -42,13 +42,39 @@ class BotHandler
         }
     }
 
-    private function action($text)
+    private function action($igp)
     {
-        $tgg = explode(" ", strtolower($text));
-        switch ($tgg[0]) {
-        case 'tilang':
-            if (count($tgg) == 2) {
-                $st = Tilang::cek_tilang(strtoupper(trim($tgg[1])));
+        $indoday = array(
+                    "Minggu",
+                    "Senin",
+                    "Selasa",
+                    "Rabu",
+                    "Kamis",
+                    "Jum'at",
+                    "Sabtu"
+                    );
+        $toindo = function ($time) use ($indoday) {
+            $time = strtotime($time);
+            $indomonth = array(
+            "Jan" => "Januari",
+            "Feb" => "Februari",
+            "Mar" => "Maret",
+            "Apr" => "April",
+            "May" => "Mei",
+            "Jun" => "Juni",
+            "Jul" => "Juli",
+            "Aug" => "Agustus",
+            "Sep" => "September",
+            "Oct" => "Oktober",
+            "Nov" => "November",
+            "Dec" => "Desember");
+            return $indoday[date("w", $time)].", ".date("d", $time)." ".$indomonth[date("M", $time)]." ".date("Y", $time);
+        };
+        $text = explode(" ", strtolower($igp));
+        switch ($text[0]) {
+            case 'tilang':
+            if (count($text) == 2) {
+                $st = Tilang::cek_tilang(strtoupper(trim($text[1])));
                 if (is_array($st)) {
                     $wq = "";
                     foreach ($st as $key => $value) {
@@ -61,96 +87,162 @@ class BotHandler
                 } else {
                     $wq = "Mohon maaf, pencarian tidak ditemukan!";
                 }
-                L::reply(
-                    array(
-                        array(
-                            "type" => "text",
-                            "text" => $wq
-                            )
-                        ), $this->replyToken
-                );
+                isset($wq) and L::reply(array(array(
+                    "type"=>"text",
+                    "text"=>$wq
+                )), $this->replyToken);
             } else {
-                L::reply(
-                    array(
-                        array(
-                            "type" => "text",
-                            "text" => "Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\nTILANG [NO_REG_TILANG/NOPOL]\n\nContoh :\nTILANG C6545663"
-                            )
-                        ), $this->replyToken
-                );
+                L::reply(array(array(
+                    "type"=>"text",
+                    "text"=>"Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\nTILANG [NO_REG_TILANG/NOPOL]\n\nContoh :\nTILANG C6545663"
+                )), $this->replyToken);
             }
-            break;
-        case 'bbn2':
-            if (count($tgg)==2) {
-                $rj="INFORMASI DATA BBN2\n\n";
-                $a = BBN2::getBBN2(strtoupper(trim($tgg[1])));
-                if ($a) {
-                    foreach ($a as $k => $v) {
-                        $rj.= ucwords(str_replace('_', ' ', $k)).": ".$v."\n";
-                    }
-                    $rj.="\n\nPengambilan diruang BPKB Satlantas Polres Tegal";
-                } else {
-                    $rj = "Pencarian tidak ditemukan!";
-                }
-            } else {
-                $rj = "Mohon maaf format penulisan BBN2 salah.\n\nBerikut ini adalah penulisan yang benar :\nBBN2 [NOPOL]\n\nContoh :\nBBN2 AD3718BEC";
-            }
-            L::reply(
-                array(array(
-                "type"=>"text",
-                "text"=>$rj
-                )), $this->replyToken
-            );
             break;
 
-        case 'jadwalsim':
-            if (count($tgg) == 2) {
-                $a = explode("/", $tgg[1]);
-                if (count($a) == 1) {
-                    $mhari = ucfirst(strtolower($a[0]));
-                    if (in_array($mhari, $indoday)||$mhari == "Jumat") {
-                        $jadwalsim = Jadwal::getJadwal();
-                        if ($jadwalsim) {
-                            $rj = "JADWAL SIM KELILING\n\n";
-                            foreach ($jadwalsim as $val) {
-                                if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
-                                    $rj .=$toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal : ".$val['pukul_awal']."\nPukul akhir :".$val['pukul_akhir']."\n\n";
+            case 'bbn2':
+                if (count($text)==2) {
+                    $rj="INFORMASI DATA BBN2\n\n";
+                    $a = BBN2::getBBN2(strtoupper(trim($text[1])));
+                    if ($a) {
+                        foreach ($a as $k => $v) {
+                            $rj.="".ucwords(str_replace('_', ' ', $k))." : ".$v."\n";
+                        }
+                        $rj.="\n\nPengambilan diruang BPKB Satlantas Polres Tegal";
+                    } else {
+                        $rj = "Pencarian tidak ditemukan!";
+                    }
+                } else {
+                    $rj = "Mohon maaf format penulisan BBN2 salah.\n\nBerikut ini adalah penulisan yang benar :\nBBN2 [NOPOL]\n\nContoh :\nBBN2 AD3718BEC";
+                }
+                isset($rj) and L::reply(array(array(
+                    "type"=>"text",
+                    "text"=>$rj
+                )), $this->replyToken);
+            break;
+
+            case 'jadwalsim':
+                if (count($text) == 2) {
+                    $a = explode("/", $text[1]);
+                    if (count($a) == 1) {
+                        $mhari = ucfirst(strtolower($a[0]));
+                        if (in_array($mhari, $indoday)||$mhari == "Jumat") {
+                            $jadwalsim = Jadwal::getJadwal();
+                            if ($jadwalsim) {
+                                $rj = "JADWAL SIM KELILING\n\n";
+                                $flag = false;
+                                foreach ($jadwalsim as $val) {
+                                    if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
+                                        $flag = true;
+                                        $rj .= "".$toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal : ".$val['pukul_awal']."\nPukul akhir :".$val['pukul_akhir']."\n\n";
+                                    }
                                 }
+                                (!$flag) and $rj = "Tidak ada jadwal hari ".$mhari;
+                            } else {
+                                $rj = "Tidak ada jadwal hari ".$mhari;
                             }
-                            empty($rj) and $rj = "Tidak ada jadwal hari ".$mhari;
                         } else {
-                            $rj = "Tidak ada jadwal hari ".$mhari;
+                            $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSIM 28/05/2017\nJADWALSIM SENIN";
+                        }
+                    }
+                } else {
+                    if (count($text) == 1) {
+                        $a = Jadwal::getJadwal();
+                        if ($a) {
+                            $rj = "JADWAL SIM KELILING\n\n";
+                            foreach ($a as $val) {
+                                $rj .= "".$toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal : ".$val['pukul_awal']."\nPukul akhir : ".$val['pukul_akhir']."\n\n";
+                            }
+                        } else {
+                            $rj = "Tidak ada jadwal!";
                         }
                     } else {
                         $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSIM 28/05/2017\nJADWALSIM SENIN";
                     }
                 }
-            } else {
-                if (count($tgg) == 1) {
-                    $a = Jadwal::getJadwal();
-                    if ($a) {
-                        $rj = "JADWAL SIM KELILING\n\n";
-                        foreach ($a as $val) {
-                            $rj .= $toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal</b> : ".$val['pukul_awal']."\nPukul akhir : ".$val['pukul_akhir']."\n\n";
-                        }
-                    } else {
-                        $rj = "Tidak ada jadwal!";
-                    }
-                } else {
-                    $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar JADWALSIM [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSIM 28/05/2017\nJADWALSIM SENIN";
-                }
-            }
-                isset($rj) and L::reply(
-                    array(array(
+                isset($rj) and L::reply(array(array(
                     "type"=>"text",
                     "text"=>$rj
-                    )), $this->replyToken
-                );
-            break;
-                
-        default:
+                )), $this->replyToken);
+                break;
 
-            break;
+                case 'jadwalsamsat':
+                if (count($text) == 2) {
+                    $a = explode("/", $text[1]);
+                    if (count($a) == 1) {
+                        $mhari = ucfirst(strtolower($a[0]));
+                        if (in_array($mhari, $indoday) || $mhari == "Jumat") {
+                            $jadwalsim = Jadwal::getJadwal(1);
+                            if ($jadwalsim) {
+                                $rj = "JADWAL SAMSAT KELILING\n\n";
+                                $flag = false;
+                                foreach ($jadwalsim as $val) {
+                                    if (($indoday[date("w", strtotime($val['tanggal']))] == $mhari) || ($indoday[date("w", strtotime($val['tanggal']))] == "Jum'at" && $mhari == "Jumat")) {
+                                        $flag = true;
+                                        $rj .= "".$toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal : ".$val['pukul_awal']."\nPukul akhir : ".$val['pukul_akhir']."\n\n";
+                                    }
+                                }
+                                ($flag===false) and $rj = "Tidak ada jadwal hari ".$mhari.".";
+                                file_put_contents("debug_tg.txt", $rj);
+                            } else {
+                                $rj = "Tidak ada jadwal hari ".$mhari.".";
+                            }
+                        } else {
+                            $rj = "Mohon maaf, format penulisan jadwalsamsat salah.\n\nPenulisan yang benar JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSAMSAT 28/05/2017\nJADWALSAMSAT SENIN";
+                        }
+                    }
+                } else {
+                    if (count($text) == 1) {
+                        $a = Jadwal::getJadwal(1);
+                        if ($a) {
+                            $rj = "JADWAL SAMSAT KELILING\n\n";
+                            foreach ($a as $val) {
+                                $rj .= "".$toindo($val['tanggal'])."\nLokasi : ".$val['lokasi']."\nPukul awal : ".$val['pukul_awal']."\nPukul akhir : ".$val['pukul_akhir']."\n\n";
+                            }
+                        } else {
+                            $rj = "Tidak ada jadwal sim keliling!";
+                        }
+                    } else {
+                        $rj = "Mohon maaf, format penulisan jadwalsim salah.\n\nPenulisan yang benar JADWALSAMSAT [HARI atau TANGGAL(dd/mm/yyyy)]\n\nContoh :\nJADWALSAMSAT 28/05/2017\nJADWALSAMSAT SENIN";
+                    }
+                }
+                isset($rj) and L::reply(array(array(
+                    "type"=>"text",
+                    "text"=>$rj
+                )), $this->replyToken);
+                break;
+
+            case '?':
+            case 'help':
+            case '/help':
+            case '/start':
+                        L::reply(array(array(
+                    "type"=>"text",
+                    "text"=>"SELAMAT DATANG DI APLIKASI AUTOBOT SATLANTAS POLRES TEGAL
+
+Untuk mengecek informasi tilang :
+TILANG [NO_REG_TILANG/NOPOL]
+Contoh :
+TILANG C6545663
+
+Untuk menampilkan jadwal sim keliling ketik :
+JADWALSIM
+
+Untuk menampilkan jadwal samsat keliling ketik :
+JADWALSAMSAT
+
+Untuk menampilkan data BBN2 ketik :
+BBN2 [NOPOL]
+Contoh :
+BBN2 G1234GG"
+                )), $this->replyToken);
+                break;
+
+                default:
+                L::reply(array(array(
+                    "type"=>"text",
+                    "text"=>"PERINTAH TIDAK DIKENALI.\n\nKETIK \"HELP\" ATAU \"?\" UNTUK MENAMPILKAN DAFTAR PERINTAH."
+                )), $this->replyToken);
+                break;
         }
     }
 
