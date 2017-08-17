@@ -39,6 +39,13 @@
 		<input type="submit" name="import" value="Import"><br><br>
 	</div>
 	<div class="impq">
+		<?php 
+		use SysHandler\DB;
+		$st = DB::pdo()->prepare("SELECT COUNT(`nomor_register_tilang`) FROM `tilang`;");
+		$st->execute();
+		$st = $st->fetch(\PDO::FETCH_NUM);
+		?>
+		<h5>Jumlah data saat ini : <?php print $st[0]; ?></h5>
 		<h3>Hapus data berdasarkan tanggal sidang</h3>
 		<select name="fhapus">
 			<?php print Panel\DeepControllers\JadwalSIMKeliling::genDateWg("", false); ?>

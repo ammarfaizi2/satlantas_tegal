@@ -183,21 +183,19 @@ class JadwalSIMKeliling
 
         $od  = 3600 * 24 xor $rt = "<option></option>";
         $month = array();
-        $st = DB::pdo()->prepare("SELECT `tanggal_sidang` FROM `tilang` ORDER BY `tanggal_sidang` DESC LIMIT 1");
-        $st->execute();
-        $st = $st->fetch(PDO::FETCH_ASSOC);
-        if (isset($st['tanggal_sidang'])) {
-            $now = strtotime($st['tanggal_sidang']);
-        } else {
-            $now = time();
-        }
-        for ($i=-30; $i < 30; $i++) {
-            $wq = $now + ($od * $i);
-            if ($flag and $flag == date("Y-m-d", $wq)) {
-                $rt .= "<option value=\"".($wq)."\" selected>".$indoday[date("w", $wq)].",&nbsp;".date("d", $wq)." ".$indomonth[date("M", $wq)]." ".date("Y", $wq)."</option>";
-            } else {
-                $rt .= "<option value=\"".($wq)."\">".$indoday[date("w", $wq)].",&nbsp;".date("d", $wq)." ".$indomonth[date("M", $wq)]." ".date("Y", $wq)."</option>";
+        $st = DB::pdo()->prepare("SELECT `tanggal_sidang` FROM `tilang` GROUP BY `tanggal_sidang` ORDER BY `tanggal_sidang` DESC LIMIT 30;");
+        $exe = $st->execute();
+        if ($exe) {
+            $st = $st->fetchAll(\PDO::FETCH_NUM);
+            $rt = "<option></option>";
+            if ($st) {
+                foreach ($st as $val) {
+                    $wq = strtotime($val[0]);
+                    $rt .= "<option value=\"".($wq)."\" selected>".$indoday[date("w", $wq)].",&nbsp;".date("d", $wq)." ".$indomonth[date("M", $wq)]." ".date("Y", $wq)."</option>";
+                }
             }
+        } else {
+            var_dump($st->errorInfo());
         }
         return $rt;
     }
