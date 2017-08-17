@@ -3,6 +3,7 @@
 namespace Telegram\Bot;
 
 use PDO;
+use Models\BBN2;
 use Models\Tilang;
 use Models\Jadwal;
 use Telegram\Stack\Telegram as B;
@@ -93,8 +94,29 @@ class BotHandler
                         "parse_mode" => "HTML"
                         )
                     );
-                }
+               }
                 break;
+case 'bbn2':
+if(count($text)==2){
+$rj="";
+$a = BBN2::getBBN2(strtoupper(trim($text[1])));
+if($a){
+	foreach($a as $k => $v){
+		$rj.="<b>".ucwords(str_replace('_', ' ', $k))."</b> : ".$v."\n";
+	}
+} else {
+	$rj = "Pencarian tidak ditemukan!";
+}
+} else {
+	$rj = "Mohon maaf format penulisan BBN2 salah.\nBerikut ini adalah penulisan yang benar :\n<b>BBN2 [NOPOL]</b>\n\nContoh :\n<b>BBN2 AD3718BEC</b>";
+}
+B::sendMessage(array(
+"reply_to_message_id" => $input['message']['message_id'],
+"chat_id" => $input['message']['chat']['id'],
+"text" => $rj,
+"parse_mode" => "HTML"
+   ));
+break;
             case 'jadwalsim':
                 if (count($text) == 2) {
                     $a = explode("/", $text[1]);
