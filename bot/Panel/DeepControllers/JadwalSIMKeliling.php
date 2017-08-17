@@ -2,6 +2,7 @@
 
 namespace Panel\DeepControllers;
 
+use PDO;
 use SysHandler\DB;
 use Models\Jadwal;
 
@@ -150,6 +151,52 @@ class JadwalSIMKeliling
             } else {
                 $rt .= "<option value=\"".$iq."\">".$iq."</option>";
                 ;
+            }
+        }
+        return $rt;
+    }
+
+    public static function genDateWg($flag = null, $js = true)
+    {
+        $indoday = array(
+                "Minggu",
+                "Senin",
+                "Selasa",
+                "Rabu",
+                "Kamis",
+                "Jum".($js ? "\\'" : "'")."at",
+                "Sabtu"
+            );
+        $indomonth = array(
+            "Jan" => "Januari",
+            "Feb" => "Februari",
+            "Mar" => "Maret",
+            "Apr" => "April",
+            "May" => "Mei",
+            "Jun" => "Juni",
+            "Jul" => "Juli",
+            "Aug" => "Agustus",
+            "Sep" => "September",
+            "Oct" => "Oktober",
+            "Nov" => "November",
+            "Dec" => "Desember");
+
+        $od  = 3600 * 24 xor $rt = "<option></option>";
+        $month = array();
+        $st = DB::pdo()->prepare("SELECT `tanggal_sidang` FROM `tilang` ORDER BY `tanggal_sidang` DESC LIMIT 1");
+        $st->execute();
+        $st = $st->fetch(PDO::FETCH_ASSOC);
+        if (isset($st['tanggal_sidang'])) {
+            $now = strtotime($st['tanggal_sidang']);
+        } else {
+            $now = time();
+        }
+        for ($i=-30; $i < 30; $i++) {
+            $wq = $now + ($od * $i);
+            if ($flag and $flag == date("Y-m-d", $wq)) {
+                $rt .= "<option value=\"".($wq)."\" selected>".$indoday[date("w", $wq)].",&nbsp;".date("d", $wq)." ".$indomonth[date("M", $wq)]." ".date("Y", $wq)."</option>";
+            } else {
+                $rt .= "<option value=\"".($wq)."\">".$indoday[date("w", $wq)].",&nbsp;".date("d", $wq)." ".$indomonth[date("M", $wq)]." ".date("Y", $wq)."</option>";
             }
         }
         return $rt;
