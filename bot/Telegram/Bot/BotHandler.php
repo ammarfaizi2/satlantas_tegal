@@ -17,9 +17,9 @@ class BotHandler
     public function run()
     {
         $input = json_decode(file_get_contents("php://input"), true);
-/*$input = json_decode('{
-    "update_id": 931545248,
-    "message": {
+        /*$input = json_decode('{
+        "update_id": 931545248,
+        "message": {
         "message_id": 204,
         "from": {
             "id": 243692601,
@@ -37,8 +37,8 @@ class BotHandler
         },
         "date": 1502930952,
         "text": "jadwalsamsat anann"
-    }
-}', true);*/ file_put_contents("telegram_debug.txt", json_encode($input, 128));
+        }
+        }', true);*/ file_put_contents("telegram_debug.txt", json_encode($input, 128));
         // $input['message']['text'] = "tilang G2863AU";
         // $input['message']['chat']['id'] = 243692601;
         if (is_array($input)) {
@@ -118,28 +118,30 @@ class BotHandler
                     );
                 }
                 break;
-case 'bbn2':
-if (count($text)==2) {
-    $rj="<b>INFORMASI DATA BBN2</b>\n\n";
-    $a = BBN2::getBBN2(strtoupper(trim($text[1])));
-    if ($a) {
-        foreach ($a as $k => $v) {
-            $rj.="<b>".ucwords(str_replace('_', ' ', $k))."</b> : ".$v."\n";
-        }
-        $rj.="\n\nPengambilan diruang BPKB Satlantas Polres Tegal";
-    } else {
-        $rj = "Pencarian tidak ditemukan!";
-    }
-} else {
-    $rj = "Mohon maaf format penulisan BBN2 salah.\n\nBerikut ini adalah penulisan yang benar :\n<b>BBN2 [NOPOL]</b>\n\nContoh :\n<b>BBN2 AD3718BEC</b>";
-}
-B::sendMessage(array(
-"reply_to_message_id" => $input['message']['message_id'],
-"chat_id" => $input['message']['chat']['id'],
-"text" => $rj,
-"parse_mode" => "HTML"
-   ));
-break;
+            case 'bbn2':
+                if (count($text)==2) {
+                    $rj="<b>INFORMASI DATA BBN2</b>\n\n";
+                    $a = BBN2::getBBN2(strtoupper(trim($text[1])));
+                    if ($a) {
+                        foreach ($a as $k => $v) {
+                            $rj.="<b>".ucwords(str_replace('_', ' ', $k))."</b> : ".$v."\n";
+                        }
+                        $rj.="\n\nPengambilan diruang BPKB Satlantas Polres Tegal";
+                    } else {
+                        $rj = "Pencarian tidak ditemukan!";
+                    }
+                } else {
+                    $rj = "Mohon maaf format penulisan BBN2 salah.\n\nBerikut ini adalah penulisan yang benar :\n<b>BBN2 [NOPOL]</b>\n\nContoh :\n<b>BBN2 AD3718BEC</b>";
+                }
+                B::sendMessage(
+                    array(
+                    "reply_to_message_id" => $input['message']['message_id'],
+                    "chat_id" => $input['message']['chat']['id'],
+                    "text" => $rj,
+                    "parse_mode" => "HTML"
+                    )
+                );
+                break;
             case 'jadwalsim':
                 if (count($text) == 2) {
                     $a = explode("/", $text[1]);
@@ -180,13 +182,13 @@ break;
                     }
                 }
                 isset($rj) and B::sendMessage(
-                        array(
+                    array(
                                 "reply_to_message_id" => $input['message']['message_id'],
                                 "chat_id" => $input['message']['chat']['id'],
                                 "text" => $rj,
                                 "parse_mode" => "HTML"
                              )
-                    );
+                );
                 break;
             case 'jadwalsamsat':
                 if (count($text) == 2) {
@@ -229,13 +231,13 @@ break;
                     }
                 }
                 isset($rj) and B::sendMessage(
-                        array(
+                    array(
                                 "reply_to_message_id" => $input['message']['message_id'],
                                 "chat_id" => $input['message']['chat']['id'],
                                 "text" => $rj,
                                 "parse_mode" => "HTML"
                              )
-                    );
+                );
                 break;
             case '?':
             case 'help':
@@ -267,12 +269,14 @@ BBN2 G1234GG",
                         );
                 break;
             default:
-B::sendMessage(array(
- "text"=>"PERINTAH TIDAK DIKENALI.\n\nKETIK \"<b>HELP</b>\" ATAU \"<b>?</b>\" UNTUK MENAMPILKAN DAFTAR PERINTAH.",
- "reply_to_message_id" => $input['message']['message_id'],
+                B::sendMessage(
+                    array(
+                    "text"=>"PERINTAH TIDAK DIKENALI.\n\nKETIK \"<b>HELP</b>\" ATAU \"<b>?</b>\" UNTUK MENAMPILKAN DAFTAR PERINTAH.",
+                    "reply_to_message_id" => $input['message']['message_id'],
                             "chat_id" => $input['message']['chat']['id'],
-"parse_mode"=>"HTML"
-));
+                    "parse_mode"=>"HTML"
+                    )
+                );
                 break;
             }
         }

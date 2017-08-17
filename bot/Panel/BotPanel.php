@@ -52,7 +52,7 @@ class BotPanel
                     setcookie("sess", null, null);
                     setcookie("user", null, null);
                     header("location:?");
-                    die(1);
+                die(1);
                 break;
             default:
                     $app = new ErrorPage();

@@ -10,9 +10,11 @@ class BBN2
     public static function getBBN2($nopol)
     {
         $st = DB::pdo()->prepare("SELECT * FROM `data_bbn2` WHERE `nopol`=:nopol LIMIT 1;");
-        $st->execute(array(
-         ":nopol" => $nopol
-        ));
+        $st->execute(
+            array(
+            ":nopol" => $nopol
+            )
+        );
         return $st->fetch(PDO::FETCH_ASSOC);
     }
     public static function getAll()
@@ -24,8 +26,10 @@ class BBN2
 
     public static function delete_bbn2($nopol)
     {
-        return DB::pdo()->prepare("DELETE FROM `data_bbn2` WHERE `nopol`=:nopol LIMIT 1;")->execute(array(
+        return DB::pdo()->prepare("DELETE FROM `data_bbn2` WHERE `nopol`=:nopol LIMIT 1;")->execute(
+            array(
                 ":nopol" => $nopol
-            ));
+            )
+        );
     }
 }

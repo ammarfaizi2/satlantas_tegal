@@ -3,7 +3,8 @@ use SysHandler\DB;
 
 if (isset($_POST['simpan'])) {
     $st = DB::pdo()->prepare("UPDATE `data_bbn2` SET `nopol`=:nopol, `nama`=:nama, `alamat`=:alamat, `jenis_kendaraan`=:jenken, `no_rangka`=:no_rang, `status`=:status WHERE `nopol`=:npid LIMIT 1;");
-    $exe = $st->execute(array(
+    $exe = $st->execute(
+        array(
             ":nopol" => $_POST['nopol'],
             ":nama" => $_POST['nama'],
             ":alamat" => $_POST['alamat'],
@@ -11,7 +12,8 @@ if (isset($_POST['simpan'])) {
             ":no_rang" => $_POST['no_rangka'],
             ":status" => $_POST['status'],
             ":npid" => $_GET['edit_bbn2']
-        ));
+        )
+    );
     $alert = $exe ? "Berhasil mengubah data!" : "Gagal mengubah data!"; ?>
 	<!DOCTYPE html>
 	<html>
@@ -26,7 +28,7 @@ if (isset($_POST['simpan'])) {
 	
 	</body>
 	</html>
-	<?php
+    <?php
     die();
 }
 ?>

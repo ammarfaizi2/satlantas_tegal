@@ -21,7 +21,7 @@ class BBN2
         if (isset($_GET['sp']) and $_GET['sp'] == "input") {
             $this->input();
         } else {
-            require __DIR__."/../../views/bbn2_index.php";
+            include __DIR__."/../../views/bbn2_index.php";
         }
     }
 
@@ -59,7 +59,7 @@ class BBN2
 				
 				</body>
 				</html>
-			<?php
+    <?php
 
             } else {
                 ?>
@@ -80,7 +80,7 @@ class BBN2
 
             }
         } else {
-            require __DIR__."/../../views/input_bbn2.php";
+            include __DIR__."/../../views/input_bbn2.php";
         }
     }
 }
