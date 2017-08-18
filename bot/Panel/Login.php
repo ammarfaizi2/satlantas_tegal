@@ -36,7 +36,14 @@ class Login
             }
             die(1);
         } else {
-            include __DIR__.'/../views/login_page.php';
+            $this->login_pgg();
         }
     }
+    
+private function login_pgg()
+{
+	$csrf = rstr();
+	$ckey = rstr(64);
+	require __DIR__.'/../views/login_page.php';
+}
 }
