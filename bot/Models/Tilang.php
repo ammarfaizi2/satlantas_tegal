@@ -9,7 +9,7 @@ class Tilang
 {
     public static function cek_tilang($no)
     {
-        $st = DB::pdo()->prepare("SELECT * FROM `tilang_a` AS `a` INNER JOIN `tilang_b` AS `b` ON `a`.`no_register_tilang`=`b`.`no_register_tilang` WHERE `a`.`no_register_tilang` = :noreg OR `b`.`nomor_polisi` = :nopol LIMIT 1;");
+        $st = DB::pdo()->prepare("SELECT * FROM `tilang` WHERE `nomor_register_tilang` = :noreg OR `nomor_polisi` = :nopol LIMIT 1 ");
         $st->execute(
             [
                 ":noreg" => $no,
