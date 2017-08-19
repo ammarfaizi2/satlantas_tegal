@@ -4,6 +4,7 @@ namespace Panel;
 
 use Panel\Login;
 use SysHandler\DB;
+use Models\Login as LL;
 use Panel\DeepControllers\BBN2;
 use Panel\DeepControllers\ETilang;
 use Panel\DeepControllers\ErrorPage;
@@ -49,6 +50,7 @@ class BotPanel
                     $app->run();
                 break;
             case 'logout':
+                    LL::logout_session(base64_decode($_COOKIE['sess']), base64_decode($_COOKIE['user']));
                     setcookie("sess", null, null);
                     setcookie("user", null, null);
                     header("location:?");
