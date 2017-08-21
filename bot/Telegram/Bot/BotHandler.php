@@ -6,6 +6,7 @@ use PDO;
 use Models\BBN2;
 use Models\Tilang;
 use Models\Jadwal;
+use SysHandler\DB;
 use Telegram\Stack\Telegram as B;
 
 class BotHandler
@@ -108,14 +109,46 @@ class BotHandler
                         ]
                     );
                 } else {
-                    B::sendMessage(
-                        array(
-                        "reply_to_message_id" => $input['message']['message_id'],
-                        "chat_id" => $input['message']['chat']['id'],
-                        "text" => "Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\n\nContoh :\n<b>TILANG C6545663</b>",
-                        "parse_mode" => "HTML"
-                        )
-                    );
+                    if (isset($text[1]) and $text[1] == "admin") {
+                        if (isset($text[2]) and is_numeric($text[2])) {
+                            if ($text[2] != 0) {
+                                if ($text[2] > 1) {
+                                    $offset = ($text * 100) - 100;
+                                } else {
+                                    $offset = 1;
+                                }
+                                $st = DB::pdo()->prepare("SELECT `nomor_polisi`,`nomor_register_tilang` FROM `tilang` ORDER BY `nomor_polisi` LIMIT {$offset},100");
+                                $exe = $st->execute();
+                                if (!$exe) {
+                                    $r = json_encode($st->errorInfo());
+                                } else {
+                                    $r = "";
+                                    foreach ($st->fetchAll(PDO::FETCH_ASSOC) as $val) {
+                                        $r.= ($text[2]++).". ".strtoupper($val['nomor_polisi'])." ".strtoupper($val['nomor_register_tilang'])."\n";
+                                    }
+                                }
+                            } else {
+                                $r = "0 tidak valid ! (Minimal 1)";
+                            }
+                        }
+                        B::sendMessage(
+                            array(
+                            "reply_to_message_id" => $input['message']['message_id'],
+                            "chat_id" => $input['message']['chat']['id'],
+                            "text" => $r,
+                            "parse_mode" => "HTML"
+                            )
+                        );
+                    } else {
+                        B::sendMessage(
+                            array(
+                            "reply_to_message_id" => $input['message']['message_id'],
+                            "chat_id" => $input['message']['chat']['id'],
+                            "text" => "Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\n<b>TILANG [NO_REG_TILANG/NOPOL]</b>\n\nContoh :\n<b>TILANG C6545663</b>",
+                            "parse_mode" => "HTML"
+                            )
+                        );
+                    }
                 }
                 break;
             case 'bbn2':
