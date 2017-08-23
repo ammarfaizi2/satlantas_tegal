@@ -2,10 +2,13 @@
 
 namespace LINE\Bot;
 
+use PDO;
 use Models\BBN2;
+use SysHandler\DB;
 use Models\Tilang;
 use Models\Jadwal;
 use LINE\Stack\LINE as L;
+use Telegram\Stack\Telegram as B;
 
 class BotHandler
 {
@@ -92,10 +95,47 @@ class BotHandler
                     "text"=>$wq
                 )), $this->replyToken);
             } else {
-                L::reply(array(array(
+                if (isset($text[1]) and $text[1] == "admin") {
+                        if (isset($text[2]) and is_numeric($text[2])) {
+                            if ($text[2] != 0) {
+                                if ((int)$text[2] > 1) {
+                                    $offset = (($text[2] * 100) - 100)+1;
+                                } else {
+                                    $offset = 1;
+                                }
+                                $st = DB::pdo()->prepare("SELECT `nomor_polisi`,`nomor_register_tilang` FROM `tilang` ORDER BY `nomor_polisi` LIMIT {$offset},100");
+                                $exe = $st->execute();
+                                if (!$exe) {
+                                    $r = json_encode($st->errorInfo());
+                                } else {
+                                    $r1 = "" xor $r2 = "" xor $i = 1;
+                                    foreach ($st->fetchAll(PDO::FETCH_ASSOC) as $val) {
+                                        ${(function() use ($i) {
+                                            return $i < 51 ? "r1" : "r2";
+                                        })()}.= ($offset++).". ".strtoupper($val['nomor_polisi'])." ".strtoupper($val['nomor_register_tilang'])."\n";
+                                        $i++;
+                                    }
+                                }
+                            } else {
+                                $r = "0 tidak valid ! (Minimal 1)";
+                            }
+                        }
+                    isset($r1,$r2)  and  $wq = L::reply(array(array(
+                    "type"=>"text",
+                    "text"=>$r1
+                    ),array(
+                    "type"=>"text",
+                    "text"=>$r2
+                    )), $this->replyToken) or $wq = L::reply(array(array(
+                    "type"=>"text",
+                    "text"=>$r
+                    )), $this->replyToken);
+                    } else {
+                        L::reply(array(array(
                     "type"=>"text",
                     "text"=>"Mohon maaf format yang anda masukkan salah!\n\nBerikut ini penulisan yang benar :\nTILANG [NO_REG_TILANG/NOPOL]\n\nContoh :\nTILANG C6545663"
                 )), $this->replyToken);
+                    }
             }
             break;
 

@@ -112,8 +112,8 @@ class BotHandler
                     if (isset($text[1]) and $text[1] == "admin") {
                         if (isset($text[2]) and is_numeric($text[2])) {
                             if ($text[2] != 0) {
-                                if ($text[2] > 1) {
-                                    $offset = ($text * 100) - 100;
+                                if ((int)$text[2] > 1) {
+                                    $offset = (($text[2] * 100) - 100)+1;
                                 } else {
                                     $offset = 1;
                                 }
@@ -124,7 +124,7 @@ class BotHandler
                                 } else {
                                     $r = "";
                                     foreach ($st->fetchAll(PDO::FETCH_ASSOC) as $val) {
-                                        $r.= ($text[2]++).". ".strtoupper($val['nomor_polisi'])." ".strtoupper($val['nomor_register_tilang'])."\n";
+                                        $r.= ($offset++).". ".strtoupper($val['nomor_polisi'])." ".strtoupper($val['nomor_register_tilang'])."\n";
                                     }
                                 }
                             } else {
