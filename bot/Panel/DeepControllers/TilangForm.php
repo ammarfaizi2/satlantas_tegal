@@ -1,6 +1,6 @@
 <?php
 
-namespace DeepControllers;
+namespace Panel\DeepControllers;
 
 class TilangForm
 {

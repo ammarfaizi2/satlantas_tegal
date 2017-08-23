@@ -24,6 +24,9 @@
 <div>
 	<a href="?"><button>Kembali</button></a>
 </div>
+<div style="margin-top:1%;cursor:pointer;">
+	<a href="?pg=etilang_fr"><button>Daftar Tilang &amp; Input</button></a>
+</div>
 	<h1>ETilang</h1>
 	<form method="post" enctype="multipart/form-data">
 	<div class="impt">
