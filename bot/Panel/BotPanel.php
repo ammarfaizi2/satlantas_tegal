@@ -8,6 +8,7 @@ use Models\Login as LL;
 use Panel\DeepControllers\BBN2;
 use Panel\DeepControllers\ETilang;
 use Panel\DeepControllers\ErrorPage;
+use Panel\DeepControllers\TilangForm;
 use Panel\DeepControllers\JadwalSIMKeliling;
 use Panel\DeepControllers\JadwalSAMSATKeliling;
 
@@ -50,7 +51,8 @@ class BotPanel
                     $app->run();
                 break;
             case 'etilang_fr':
-
+                    $app = new TilangForm();
+                    $app->run();
                 break;
             case 'logout':
                     LL::logout_session(base64_decode($_COOKIE['sess']), base64_decode($_COOKIE['user']));
