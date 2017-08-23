@@ -43,10 +43,15 @@ class ETilang
     private static function import($excel_class, $file)
     {
     	ini_set("display_errors", true);
+    	ini_set("memory_limit", "999G");
+    	ini_set("max_execution_time", false);
     	spl_autoload_unregister(
     			"load_class_aaa"
 			);
+		
+		#require CORE."/simple_vendor_map/PHPExcel/PHPExcel/Settings.php";
     	require CORE."/simple_vendor_map/PHPExcel/PHPExcel.php";
+    	\PHPExcel_Settings::setZipClass(\PHPExcel_Settings::PCLZIP);
     	$excelreader = new $excel_class();
 		$loadexcel = $excelreader->load($file);
 		$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
@@ -57,7 +62,10 @@ class ETilang
 			if ($i>0) {
 				$j = 0;
 				$query .= "(";
-				foreach ($row as $col) {
+				foreach ($row as $key => $col) {
+					if ($key == "AA") {
+						break;
+					}
 					if ($j > 0) {
 						$query .= ":col_{$i}_{$j},";
 						if ($j == 2 || $j == 19 || $j == 24) {
