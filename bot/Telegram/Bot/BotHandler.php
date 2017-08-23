@@ -91,10 +91,12 @@ class BotHandler
                     if (is_array($st)) {
                         $wq = "";
                         foreach ($st as $key => $value) {
-                            if ($key == "hadir") {
-                                $wq .= "<b>Hadir/Verstek</b> : ".htmlspecialchars($value)."\n";
-                            } else {
-                                $wq .= "<b>".ucwords(str_replace("_", " ", $key))."</b> : ".htmlspecialchars($value)."\n";
+                            if ($key != 'denda') {
+                                if ($key == "hadir") {
+                                    $wq .= "<b>Hadir/Verstek</b> : ".htmlspecialchars($value)."\n";
+                                } else {
+                                    $wq .= "<b>".ucwords(str_replace("_", " ", $key))."</b> : ".htmlspecialchars($value)."\n";
+                                }
                             }
                         }
                     } else {

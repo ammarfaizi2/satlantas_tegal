@@ -49,6 +49,9 @@ class BotPanel
                     $app = new ETilang();
                     $app->run();
                 break;
+            case 'etilang_fr':
+
+                break;
             case 'logout':
                     LL::logout_session(base64_decode($_COOKIE['sess']), base64_decode($_COOKIE['user']));
                     setcookie("sess", null, null);
