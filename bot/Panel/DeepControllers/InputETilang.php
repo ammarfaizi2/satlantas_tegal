@@ -22,7 +22,9 @@ class InputETilang
 				$q .= "`{$key}`,";
 				$v .= ":{$key},";
 			}
-			$st = DB::pdo()->prepare(print trim($q, ",").") VALUES ".trim($v, ",").");");
+			$st = DB::pdo()->prepare($quer = trim($q, ",").") VALUES ".trim($v, ",").");");
+			print $quer;
+			die();
 			var_dump($data);
 			$exe = $st->execute($data);
 			if (!$exe) {
@@ -48,7 +50,3 @@ class InputETilang
 		include __DIR__.'/../../views/input_etilang.php';
 	}
 }
-
-/*INSERT INTO (`nomor_register_tilang`,`tanggal_perkara`,`form`,`nomor_pembayaran`,`nrp_petugas`,`nama_petugas`,`nama`,`alamat`,`pasal`,`barang_bukti`,`jenis_kendaraan`,`nomor_polisi`,`uang_titipan`,`kode_satker_pn`,`nomor_perkara`,`nama_hakim`,`nama_panitera`,`kode_satker_kejaksaan`,`tanggal_bayar`,`hadir_atau_verstek`,`denda`,`ongkos_perkara`,`subsidair`,`sisa_titipan`) VALUES (:nomor_register_tilang,:tanggal_perkara,:form,:nomor_pembayaran,:nrp_petugas,:nama_petugas,:nama,:alamat,:pasal,:barang_bukti,:jenis_kendaraan,:nomor_polisi,:uang_titipan,:kode_satker_pn,:nomor_perkara,:nama_hakim,:nama_panitera,:kode_satker_kejaksaan,:tanggal_bayar,:hadir_atau_verstek,:denda,:ongkos_perkara,:subsidair,:sisa_titipan);array(3) */
-
-
