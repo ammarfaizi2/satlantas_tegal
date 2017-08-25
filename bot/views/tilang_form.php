@@ -99,6 +99,9 @@ $get_jumlah = $sql2->fetch(PDO::FETCH_NUM);
 		</center>
 		</nav>
 		<center>
+			<div>
+				<a href="?pg=input_etilang"><button class="btn btn-success">Input Data</button></a>
+			</div>
 			<div style="margin-bottom: 2%;">
 				<h2>Daftar Tilang</h2>
 			</div>
@@ -135,7 +138,7 @@ $get_jumlah = $sql2->fetch(PDO::FETCH_NUM);
 						<td class="align-middle text-center" width="20%;" align="center"><?php print $val['nomor_polisi']; ?></td>
 						<td class="align-middle text-center" width="20%;" align="center"><?php print $val['nomor_register_tilang']; ?></td>
 						<td class="align-middle text-center" width="30%;" align="center">
-							<div style="margin-top:3px;margin-bottom:3px;">
+							<div style="margin-top:3.1px;margin-bottom:3px;">
 								<a href="?pg=etilang_fr&amp;page=1&amp;delete=<?php print $val['nomor_register_tilang']; ?>"><button class="btn btn-danger">Hapus</button></a>
 							</div>
 						</td>

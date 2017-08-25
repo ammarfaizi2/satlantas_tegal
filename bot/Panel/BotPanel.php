@@ -9,6 +9,7 @@ use Panel\DeepControllers\BBN2;
 use Panel\DeepControllers\ETilang;
 use Panel\DeepControllers\ErrorPage;
 use Panel\DeepControllers\TilangForm;
+use Panel\DeepControllers\InputETilang;
 use Panel\DeepControllers\JadwalSIMKeliling;
 use Panel\DeepControllers\JadwalSAMSATKeliling;
 
@@ -60,6 +61,9 @@ class BotPanel
                     setcookie("user", null, null);
                     header("location:?");
                 die(1);
+                break;
+            case 'input_etilang':
+                    InputETilang::run();
                 break;
             default:
                     $app = new ErrorPage();
