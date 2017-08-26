@@ -116,7 +116,7 @@ $opt2 = $rt;
 					<tr><td> Nama Hakim</td><td>:</td><td><input type="text" name="nama_hakim"></td></tr>
 					<tr><td> Nama Panitera</td><td>:</td><td><input type="text" name="nama_panitera"></td></tr>
 					<tr><td> Kode Satker Kejaksaan</td><td>:</td><td><input type="text" name="kode_satker_kejaksaan"></td></tr>
-					<tr><td> Tanggal Sidang</td><td>:</td><td><select name="tanggal_bayar"><?php print $opt2; ?></select></td></tr>
+					<tr><td> Tanggal Sidang</td><td>:</td><td><select name="tanggal_sidang"><?php print $opt2; ?></select></td></tr>
 					<tr><td> Hadir Atau Verstek</td><td>:</td><td><input type="text" name="hadir_atau_verstek"></td></tr>
 					<tr><td> Denda</td><td>:</td><td><input type="text" name="denda"></td></tr>
 					<tr><td> Ongkos Perkara</td><td>:</td><td><input type="text" name="ongkos_perkara"></td></tr>

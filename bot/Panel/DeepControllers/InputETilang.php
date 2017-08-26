@@ -11,24 +11,21 @@ class InputETilang
 	{
 		if (isset($_POST['simpan'])) {
 			unset($_POST['simpan']);
-			$q = "INSERT INTO (" xor $v = "(";
-			foreach ($_POST as $key => $val) {
-				if ($key == "tanggal_perkara" || $key == "tanggal_bayar" || $key == "tanggal_sidang") {
-					$data[":{$key}"] = date("Y-m-d", $val);
-				} else {
-					$data[":{$key}"] = trim($val);
-					$data[":{$key}"] = empty($data[":{$key}"]) ? null : $data[":{$key}"];
-				}
-				$q .= "`{$key}`,";
-				$v .= ":{$key},";
-			}
-			$st = DB::pdo()->prepare($quer = trim($q, ",").") VALUES ".trim($v, ",").");");
-			print $quer;
-			die();
-			var_dump($data);
-			$exe = $st->execute($data);
+			$q = "INSERT INTO `tilang` (`nomor_register_tilang`, `tanggal_perkara`, `form`, `nomor_pembayaran`, `nrp_petugas`, `nama_petugas`, `nama`, `alamat`, `pasal`, `barang_bukti`, `jenis_kendaraan`, `nomor_polisi`, `uang_titipan`, `kode_satker_pn`, `nomor_perkara`, `nama_hakim`, `nama_panitera`, `kode_satker_kejaksaan`, `tanggal_sidang`, `hadir_atau_verstek`, `denda`, `ongkos_perkara`, `subsidair`, `tanggal_bayar`, `sisa_titipan`) VALUES (:nomor_register_tilang,:tanggal_perkara,:form,:nomor_pembayaran,:nrp_petugas,:nama_petugas,:nama,:alamat,:pasal,:barang_bukti,:jenis_kendaraan,:nomor_polisi,:uang_titipan,:kode_satker_pn,:nomor_perkara,:nama_hakim,:nama_panitera,:kode_satker_kejaksaan,:tanggal_sidang,:hadir_atau_verstek,:denda,:ongkos_perkara,:subsidair,:tanggal_bayar,:sisa_titipan);";
+			$_POST['tanggal_perkara'] = date("Y-m-d", $_POST['tanggal_perkara']);
+			$_POST['tanggal_sidang'] = date("Y-m-d", $_POST['tanggal_sidang']);
+			$_POST['tanggal_bayar'] = date("Y-m-d", $_POST['tanggal_bayar']);
+			$_POST['uang_titipan'] = (int) $_POST['uang_titipan'];
+			$_POST['denda'] = (int) $_POST['denda'];
+			$_POST['ongkos_perkara'] = (int) $_POST['ongkos_perkara'];
+			$_POST['sisa_titipan'] = (int) $_POST['sisa_titipan'];
+			$st = DB::pdo()->prepare($q);
+			$exe = $st->execute($_POST);
 			if (!$exe) {
+				echo "<pre>";
 				var_dump($st->errorInfo());
+
+				die();
 			} else {
 				?>
 				<!DOCTYPE html>
